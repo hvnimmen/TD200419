@@ -3,12 +3,8 @@ package sample;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -28,17 +24,19 @@ public class Game extends Application {
 
         root.setPrefSize(W, H);
 
-        Tile tile1 = new Tile(1, 1);
-        Tile tile2 = new Tile(2, 3);
-        root.getChildren().addAll(tile1, tile2);
+//        for (int i = 0; i < X_TILES; i++){
+//            for (int j = 0; j < Y_TILES; j++){
+//                Tile tile = new Tile(i, j, "grass");
+//                if(i == j*2 || i == (j*2)+1 || i == (j*2)+2){
+//                    tile = new Tile(i, j, "dirt");
+//                }
+//                root.getChildren().add(tile);
+//            }
+//        }
 
-        Image image = new Image("file:grass-block.png");
-        ImageView iv = new ImageView();
-        iv.setImage(image);
-        iv.setPreserveRatio(true);
-        iv.setFitHeight(TILE_SIZE);
-        iv.setTranslateX(5 * TILE_SIZE);
-        root.getChildren().add(iv);
+        Tile tile1 = new Tile(0, 0, "grass");
+        Tile tile2 = new Tile(1, 0, "dirt");
+        root.getChildren().addAll(tile1, tile2);
 
         return root;
 
