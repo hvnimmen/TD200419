@@ -24,19 +24,19 @@ public class Game extends Application {
 
         root.setPrefSize(W, H);
 
-//        for (int i = 0; i < X_TILES; i++){
-//            for (int j = 0; j < Y_TILES; j++){
-//                Tile tile = new Tile(i, j, "grass");
-//                if(i == j*2 || i == (j*2)+1 || i == (j*2)+2){
-//                    tile = new Tile(i, j, "dirt");
-//                }
-//                root.getChildren().add(tile);
-//            }
-//        }
+        for (int i = 0; i < X_TILES; i++){
+            for (int j = 0; j < Y_TILES; j++){
+                Tile tile = new Tile(i, j, TileType.Grass);
+                if(i == j-1 || i == j || i == j+1){
+                    tile = new Tile(i, j, TileType.Dirt);
+                }
+                root.getChildren().add(tile);
+            }
+        }
 
-        Tile tile1 = new Tile(0, 0, "grass");
-        Tile tile2 = new Tile(1, 0, "dirt");
-        root.getChildren().addAll(tile1, tile2);
+//        Tile tile1 = new Tile(0, 0, "grass");
+//        Tile tile2 = new Tile(1, 0, "dirt");
+//        root.getChildren().addAll(tile1, tile2);
 
         return root;
 
