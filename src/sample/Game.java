@@ -9,37 +9,56 @@ import javafx.stage.Stage;
 
 public class Game extends Application {
 
-    private static final int TILE_SIZE = 40;
-    private static final int W = 800;
-    private static final int H = 600;
+    protected static final int TILE_SIZE = 40;
 
-    private static final int X_TILES = W / TILE_SIZE;
-    private static final int Y_TILES = H / TILE_SIZE;
+    protected static final int X_TILES = 32;
+    protected static final int Y_TILES = 16;
+
+    private static final int W = TILE_SIZE * X_TILES;
+    private static final int H = TILE_SIZE * Y_TILES;
 
     private Scene scene;
+    private Pane root;
 
     private Parent createContent() {
 
-        Pane root = new Pane();
+        root = new Pane();
 
         root.setPrefSize(W, H);
 
-        for (int i = 0; i < X_TILES; i++){
-            for (int j = 0; j < Y_TILES; j++){
-                Tile tile = new Tile(i, j, TileType.Grass);
-                if(i == j-1 || i == j || i == j+1){
-                    tile = new Tile(i, j, TileType.Dirt);
-                }
-                root.getChildren().add(tile);
-            }
-        }
+        int[][] map = {
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,2,2,2,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        };
 
-//        Tile tile1 = new Tile(0, 0, "grass");
-//        Tile tile2 = new Tile(1, 0, "dirt");
-//        root.getChildren().addAll(tile1, tile2);
+        TileGrid grid = new TileGrid(map);
+
+        Draw(grid.map);
 
         return root;
 
+    }
+
+    private void Draw(Tile[][] map){
+        for (int i = 0; i < X_TILES; i++){
+            for (int j = 0; j < Y_TILES; j++){
+                root.getChildren().add(map[i][j]);
+            }
+        }
     }
 
     public void start(Stage window) throws Exception {

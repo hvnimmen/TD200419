@@ -3,7 +3,8 @@ package sample;
 public enum TileType {
 
     Grass("file:grass-block.png", true),
-    Dirt("file:dirt-block.png", false);
+    Dirt("file:dirt-block.png", false),
+    Water("file:water-block.png", false);
 
     String fileName;
     boolean buildable;

@@ -6,8 +6,6 @@ import javafx.scene.layout.StackPane;
 
 public class Tile extends StackPane {
 
-    private static final int TILE_SIZE = 40;
-
     private int x, y;
     private TileType type;
 
@@ -19,16 +17,12 @@ public class Tile extends StackPane {
         this.y = y;
         this.type = type;
 
-//        add this if image isn't 40x40
-//        iv.setPreserveRatio(true);
-//        iv.setFitHeight(TILE_SIZE);
-
         image = new Image(type.fileName);
         iv = new ImageView(image);
         getChildren().add(iv);
 
-        setTranslateX(x * TILE_SIZE);
-        setTranslateY(y * TILE_SIZE);
+        setTranslateX(x * Game.TILE_SIZE);
+        setTranslateY(y * Game.TILE_SIZE);
     }
 
     public int getX() {
