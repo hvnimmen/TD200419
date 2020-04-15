@@ -3,6 +3,8 @@ package sample;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -30,26 +32,16 @@ public class Game extends Application {
         Tile tile2 = new Tile(2, 3);
         root.getChildren().addAll(tile1, tile2);
 
+        Image image = new Image("file:grass-block.png");
+        ImageView iv = new ImageView();
+        iv.setImage(image);
+        iv.setPreserveRatio(true);
+        iv.setFitHeight(TILE_SIZE);
+        iv.setTranslateX(5 * TILE_SIZE);
+        root.getChildren().add(iv);
+
         return root;
 
-    }
-
-    private class Tile extends StackPane {
-        private int x, y;
-
-        private Rectangle border = new Rectangle(TILE_SIZE, TILE_SIZE);
-
-        public Tile(int x, int y){
-            this.x = x;
-            this.y = y;
-
-            border.setFill(Color.WHITE);
-
-            getChildren().add(border);
-
-            setTranslateX(x * TILE_SIZE);
-            setTranslateY(y * TILE_SIZE);
-        }
     }
 
     public void start(Stage window) throws Exception {
