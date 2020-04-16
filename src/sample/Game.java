@@ -3,10 +3,13 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -20,7 +23,50 @@ public class Game extends Application {
     protected static final int W = TILE_SIZE * X_TILES;
     protected static final int H = TILE_SIZE * Y_TILES;
 
-    private Scene scene;
+    private static int[][] map = {
+            {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,1,1,0,0,1,0,0,0,0,0,1,0,0,0,0},
+            {0,0,0,2,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1},
+            {0,0,0,2,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+            {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    };
+
+    public void start(Stage window) {
+
+        VBox root = new VBox();
+        Canvas c = new Canvas(W, H);
+        GraphicsContext gc = c.getGraphicsContext2D();
+        root.getChildren().add(c);
+
+        TileGrid grid = new TileGrid(map);
+
+        new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+
+            }
+        }.start();
+
+        Scene scene = new Scene(root, W, H);
+
+        window.setScene(scene);
+        window.setTitle("Tower Defense");
+        window.show();
+
+    }
+
+    /*private Scene scene;
     private Pane root;
 
     public void start(Stage window) throws Exception {
@@ -114,7 +160,7 @@ public class Game extends Application {
         window.setScene(scene);
         window.show();
 
-    }
+    }*/
 
     public static void main(String[] args) {
         launch(args);
