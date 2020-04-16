@@ -9,6 +9,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+
 public class Game extends Application {
 
     protected static final int TILE_SIZE = 40;
@@ -20,7 +22,7 @@ public class Game extends Application {
     private static final int H = TILE_SIZE * Y_TILES;
 
     private Scene scene;
-    private Pane root;
+    private Pane root, waveLayer;
 
     private Parent createContent() {
 
@@ -49,15 +51,36 @@ public class Game extends Application {
         TileGrid grid = new TileGrid(map);
         Draw(grid.map);
 
-        Enemy e = new Enemy(grid.GetTile(2, 2), 0.006, EnemyType.Zombie);
-        root.getChildren().add(e);
+        waveLayer = new Pane();
+
+/*        Enemy e = new Enemy(grid.GetTile(2, 2), 0.006, EnemyType.Zombie);
+        Wave wave = new Wave(1, e);
 
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                for (Enemy e : wave.getEnemyList()){
+                    if(!Arrays.asList(root.getChildren()).contains(e))
+                        root.getChildren().add(e);
+                }
                 Clock.Update();
-                e.Move();
-                e.Update();
+                wave.Update();
+            }
+        };*/
+
+        Enemy e = new Enemy(grid.GetTile(2, 2), 0.006, EnemyType.Zombie);
+        Wave wave = new Wave(5000, e);
+
+        AnimationTimer gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                for(Enemy i : wave.getEnemyList()){
+                    if(!root.getChildren().contains(i)){
+                        root.getChildren().add(i);
+                    }
+                }
+                Clock.Update();
+                wave.Update();
             }
         };
 
