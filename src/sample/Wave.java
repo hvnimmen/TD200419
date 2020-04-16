@@ -25,13 +25,14 @@ public class Wave {
         }
 
         for (Enemy e : enemyList) {
-            e.Move();
-            e.Update();
+            if (e.isAlive()) {
+                e.Update();
+            }
         }
     }
 
     private void Spawn() {
-        Enemy e = new Enemy(enemyType.getStartTile(), enemyType.getSpeed(), enemyType.getType());
+        Enemy e = new Enemy(enemyType.getStartTile(), enemyType.getSpeed(), enemyType.getType(), enemyType.getGrid());
         enemyList.add(e);
     }
 

@@ -5,11 +5,12 @@ import static sample.Game.*;
 public class TileGrid {
 
     public Tile[][] map;
+    int xTiles, yTiles;
 
     public TileGrid() {
-        map = new Tile[X_TILES][Y_TILES];
-        for (int i = 0; i < X_TILES; i++){
-            for (int j = 0; j < Y_TILES; j++){
+        map = new Tile[xTiles][yTiles];
+        for (int i = 0; i < xTiles; i++){
+            for (int j = 0; j < yTiles; j++){
                 if(i == j-1 || i == j || i == j+1){
                     map[i][j] = new Tile(i, j, TileType.Dirt);
                 } else {
@@ -20,9 +21,11 @@ public class TileGrid {
     }
 
     public TileGrid(int[][] newMap){
-        map = new Tile[X_TILES][Y_TILES];
-        for (int i = 0; i < X_TILES; i++){
-            for (int j = 0; j < Y_TILES; j++){
+        xTiles = newMap[0].length;
+        yTiles = newMap.length;
+        map = new Tile[xTiles][yTiles];
+        for (int i = 0; i < xTiles; i++){
+            for (int j = 0; j < yTiles; j++){
                 switch(newMap[j][i]){
                     case 0:
                         map[i][j] = new Tile(i, j, TileType.Grass);
@@ -43,7 +46,10 @@ public class TileGrid {
     }
 
     public Tile GetTile(int x, int y) {
-        return map[x][y];
+        if (x < xTiles && y < yTiles && x > -1 && y > -1)
+            return map[x][y];
+        else
+            return new Tile(0, 0, TileType.NULL);
     }
 
     public Tile[][] getMap() {
@@ -52,5 +58,21 @@ public class TileGrid {
 
     public void setMap(Tile[][] map) {
         this.map = map;
+    }
+
+    public int getxTiles() {
+        return xTiles;
+    }
+
+    public void setxTiles(int xTiles) {
+        this.xTiles = xTiles;
+    }
+
+    public int getyTiles() {
+        return yTiles;
+    }
+
+    public void setyTiles(int yTiles) {
+        this.yTiles = yTiles;
     }
 }

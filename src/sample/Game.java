@@ -30,27 +30,27 @@ public class Game extends Application {
         root.setPrefSize(W, H);
 
         int[][] map = {
-                {0,0,0,2,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,2,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,2,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
                 {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,1,1,0,0,1,0,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1},
+                {0,0,0,2,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
                 {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,1,1,1,1,1,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };
 
         TileGrid grid = new TileGrid(map);
 
-        Enemy e = new Enemy(grid.GetTile(2, 2), 0.006, EnemyType.Zombie);
+        Enemy e = new Enemy(grid.GetTile(10, 7), 0.0003, EnemyType.Zombie, grid);
         Wave wave = new Wave(10000, e);
         Player player = new Player(grid);
 
@@ -66,20 +66,29 @@ public class Game extends Application {
                     }
                 }
 
-//                for(Enemy i : wave.getEnemyList()){
-//                    if(!root.getChildren().contains(i)){
-//                        root.getChildren().add(i);
-//                    }
-//                }
-//
-//                wave.Update();
+                for(Enemy i : wave.getEnemyList()){
+                    if(!root.getChildren().contains(i)){
+                        root.getChildren().add(i);
+                    }
+                    if(!i.isAlive()){
+                        root.getChildren().remove(i);
+                    }
+                }
+
+                wave.Update();
 
                 root.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
-                    player.SetTile(event.getX(), event.getY());
+                    int newX = (int)Math.floor(event.getX()/TILE_SIZE);
+                    int newY = (int)Math.floor(event.getY()/TILE_SIZE);
+                    root.getChildren().remove(grid.getMap()[newX][newY]);
+                    player.SetTile(newX, newY);
                 });
 
                 root.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-                    player.SetTile(event.getX(), event.getY());
+                    int newX = (int)Math.floor(event.getX()/TILE_SIZE);
+                    int newY = (int)Math.floor(event.getY()/TILE_SIZE);
+                    root.getChildren().remove(grid.getMap()[newX][newY]);
+                    player.SetTile(newX, newY);
                 });
             }
         };

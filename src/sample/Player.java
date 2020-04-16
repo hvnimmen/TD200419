@@ -20,10 +20,8 @@ public class Player {
         this.index = 0;
     }
 
-    public void SetTile(double x, double y) {
-        int newX = (int)Math.floor(x/TILE_SIZE);
-        int newY = (int)Math.floor(y/TILE_SIZE);
-        grid.SetTile(newX, newY, types[index]);
+    public void SetTile(int x, int y) {
+        grid.SetTile(x, y, types[index]);
     }
 
     public TileGrid getGrid() {

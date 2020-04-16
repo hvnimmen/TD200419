@@ -4,7 +4,8 @@ public enum TileType {
 
     Grass("file:grass-block-2.png", true),
     Dirt("file:dirt-block-2.png", false),
-    Water("file:water-block-2.png", false);
+    Water("file:water-block-2.png", false),
+    NULL("file:water-block-2.png", false);
 
     String fileName;
     boolean buildable;
