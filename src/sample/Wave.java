@@ -34,7 +34,8 @@ public class Wave {
     }
 
     private void Spawn() {
-        Enemy e = new Enemy(enemyType.getStartTile(), enemyType.getSpeed(), enemyType.getType(), enemyType.getGrid(), (Math.random() > 0.5));
+//        Enemy e = new Enemy(enemyType.getStartTile(), enemyType.getSpeed(), enemyType.getType(), enemyType.getGrid(), (Math.random() > 0.5));
+        Enemy e = new Enemy(enemyType.getStartTile(), enemyType.getSpeed(), enemyType.getGrid(), (Math.random() > 0.5));
         enemyList.add(e);
     }
 
