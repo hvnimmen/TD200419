@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-import java.util.ArrayList;
+import java.util.Random;
 
 import static sample.Clock.*;
 import static sample.Game.TILE_SIZE;
@@ -20,11 +20,13 @@ public class Enemy extends StackPane {
     private Tile startTile;
     private TileGrid grid;
     private Image image;
+    private Tile endTile = new Tile(0, 0, TileType.Dirt);
+    private boolean hugsLeft;
 
-    private ArrayList<Checkpoint> checkpoints;
-    private int[] directions;
+//    private ArrayList<Checkpoint> checkpoints;
+    private int[] dir;
 
-    public Enemy(Tile startTile, double speed, EnemyType type, TileGrid grid){
+    public Enemy(Tile startTile, double speed, EnemyType type, TileGrid grid, boolean hugsLeft){
         this.x = startTile.getX();
         this.y = startTile.getY();
         this.startTile = startTile;
@@ -32,19 +34,21 @@ public class Enemy extends StackPane {
         this.type = type;
         this.grid = grid;
         this.image = new Image(type.fileName);
+        this.hugsLeft = hugsLeft;
+        if(hugsLeft){
+            System.out.println("hugs left");
+        } else {
+            System.out.println("hugs right");
+        }
 
-        this.checkpoints = new ArrayList<>();
-        this.directions = new int[2];
-        //X direction
-        this.directions[0] = 0;
-        //Y direction
-        this.directions[1] = 0;
+//        this.checkpoints = new ArrayList<>();
+        this.dir = new int[2];
+        this.dir[0] = 1;
+        this.dir[1] = 0;
 
-        this.iv = new ImageView(new Image(type.fileName));
-
-        directions = FindNextD(startTile);
+        /*directions = FindNextD(startTile);
         this.currentCheckpoint = 0;
-        PopulateCheckpointList();
+        PopulateCheckpointList();*/
     }
 
     public void Draw(GraphicsContext gc) {
@@ -52,6 +56,53 @@ public class Enemy extends StackPane {
     }
 
     public void Update() {
+        if (first) {
+            first = false;
+        } else {
+            if (canGoForward()){
+                x += Delta() * dir[0] * speed;
+                y += Delta() * dir[1] * speed;
+            } else {
+                x = (int)(x+0.5);
+                y = (int)(y+0.5);
+                rotate();
+            }
+        }
+    }
+
+    private void rotate() {
+        if (hugsLeft) {
+            dir = new int[]{dir[1], -dir[0]};
+            System.out.println("turns left");
+        } else {
+            dir = new int[]{-dir[1], dir[0]};
+            System.out.println("turns right");
+        }
+    }
+
+    public boolean canGoForward() {
+        return (withinBounds() && isPath());
+    }
+
+    public boolean withinBounds() {
+        double nextX = x + Delta() * dir[0] * speed;
+        double nextY = y + Delta() * dir[1] * speed;
+        return (0 <= nextX && nextX < grid.xTiles-1 && 0 <= nextY && nextY < grid.yTiles-1);
+    }
+
+    public boolean isPath() {
+        double nextX = x + Delta() * dir[0] * speed;
+        double nextY = y + Delta() * dir[1] * speed;
+        if (dir[0] == 1)
+            nextX += 1;
+        else if (dir[1] == 1)
+            nextY += 1;
+        Tile currentTile = grid.GetTile((int)x, (int)y);
+        Tile nextTile = grid.GetTile((int)nextX, (int)nextY);
+        return (currentTile.getType() == nextTile.getType());
+    }
+
+    /*public void Update() {
         if (first)
             first = false;
         else {
@@ -157,7 +208,7 @@ public class Enemy extends StackPane {
         }
 
         return dir;
-    }
+    }*/
 
     private void Die() {
         System.out.println("just died");
