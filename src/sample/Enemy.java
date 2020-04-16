@@ -10,8 +10,7 @@ import static sample.Game.TILE_SIZE;
 public class Enemy extends StackPane {
 
     private int health;
-    private float x, y;
-    private double speed;
+    private double x, y, speed;
     private boolean first = true;
     private EnemyType type;
     private ImageView iv;
@@ -52,7 +51,7 @@ public class Enemy extends StackPane {
         this.health = health;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
@@ -60,7 +59,7 @@ public class Enemy extends StackPane {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 

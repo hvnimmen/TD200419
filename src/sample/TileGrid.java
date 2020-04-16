@@ -46,4 +46,11 @@ public class TileGrid {
         return map[x][y];
     }
 
+    public Tile[][] getMap() {
+        return map;
+    }
+
+    public void setMap(Tile[][] map) {
+        this.map = map;
+    }
 }
