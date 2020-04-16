@@ -47,4 +47,12 @@ public class TileGrid {
         }
     }
 
+    public void SetTile(int x, int y, TileType type){
+        map[x][y] = new Tile(x, y, type);
+    }
+
+    public Tile GetTile(int x, int y) {
+        return map[x][y];
+    }
+
 }
