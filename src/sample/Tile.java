@@ -19,6 +19,8 @@ public class Tile extends StackPane {
 
         image = new Image(type.fileName);
         iv = new ImageView(image);
+        iv.setPreserveRatio(true);
+        iv.setFitHeight(40);
         getChildren().add(iv);
 
         setTranslateX(x * Game.TILE_SIZE);

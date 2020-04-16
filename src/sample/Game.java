@@ -2,16 +2,13 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.util.Arrays;
 
 public class Game extends Application {
 
@@ -24,9 +21,10 @@ public class Game extends Application {
     protected static final int H = TILE_SIZE * Y_TILES;
 
     private Scene scene;
-    private Pane root, waveLayer;
+    private Pane root;
 
-    private Parent createContent() {
+    public void start(Stage window) throws Exception {
+        window.setTitle("Tower Defense");
 
         root = new Pane();
         root.setPrefSize(W, H);
@@ -52,15 +50,9 @@ public class Game extends Application {
 
         TileGrid grid = new TileGrid(map);
 
-//        Draw(grid);
-
         Enemy e = new Enemy(grid.GetTile(2, 2), 0.006, EnemyType.Zombie);
         Wave wave = new Wave(10000, e);
         Player player = new Player(grid);
-
-//        root.addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
-//            player.SetTile(event.getX(), event.getY());
-//        });
 
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
@@ -74,15 +66,19 @@ public class Game extends Application {
                     }
                 }
 
-                for(Enemy i : wave.getEnemyList()){
-                    if(!root.getChildren().contains(i)){
-                        root.getChildren().add(i);
-                    }
-                }
-
-                wave.Update();
+//                for(Enemy i : wave.getEnemyList()){
+//                    if(!root.getChildren().contains(i)){
+//                        root.getChildren().add(i);
+//                    }
+//                }
+//
+//                wave.Update();
 
                 root.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
+                    player.SetTile(event.getX(), event.getY());
+                });
+
+                root.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                     player.SetTile(event.getX(), event.getY());
                 });
             }
@@ -90,76 +86,21 @@ public class Game extends Application {
 
         gameLoop.start();
 
-        return root;
+        scene = new Scene(root, Color.BLACK);
 
-    }
-
-    public void start(Stage window) throws Exception {
-        window.setTitle("Tower Defense");
-        Scene scene = new Scene(createContent(), Color.BLACK);
-        window.setScene(scene);
-        window.show();
-
-    }
-
-//    private void Draw(TileGrid tileGrid){
-//        Tile[][] map = tileGrid.getMap();
-//        for (int i = 0; i < X_TILES; i++){
-//            for (int j = 0; j < Y_TILES; j++){
-//                root.getChildren().add(map[i][j]);
-//            }
-//        }
-//    }
-
-/*    public void start(Stage window) throws Exception {
-        window.setTitle("Tower Defense");
-        root = new Pane();
-        root.setPrefSize(W, H);
-
-        int[][] map = {
-                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,2,2,2,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        };
-
-        TileGrid grid = new TileGrid(map);
-        Draw(grid.map);
-
-        scene = new Scene(root, W, H);
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
+            if (key.getCode() == KeyCode.G)
+                player.SetIndex(0);
+            if (key.getCode() == KeyCode.D)
+                player.SetIndex(1);
+            if (key.getCode() == KeyCode.W)
+                player.SetIndex(2);
+        });
 
         window.setScene(scene);
         window.show();
 
-        Enemy e = new Enemy(grid.GetTile(2, 2), 0.002, EnemyType.Zombie);
-        root.getChildren().add(e);
-
-        AnimationTimer gameLoop = new AnimationTimer() {
-
-            @Override
-            public void handle(long now) {
-                Clock.Update();
-                e.Move();
-                e.Update();
-            }
-
-        };
-
-        gameLoop.start();
-
-    }*/
+    }
 
     public static void main(String[] args) {
         launch(args);
