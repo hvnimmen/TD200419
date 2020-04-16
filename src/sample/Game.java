@@ -1,6 +1,8 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -20,7 +22,7 @@ public class Game extends Application {
     private Scene scene;
     private Pane root;
 
-    private Parent createContent() {
+/*    private Parent createContent() {
 
         root = new Pane();
 
@@ -45,16 +47,35 @@ public class Game extends Application {
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };
 
-        TileGrid grid = new TileGrid(map);
+        //create layers
+        Pane foregroundLayer = new Pane();
+        Pane backgroundLayer = new Pane();
 
+        TileGrid grid = new TileGrid(map);
         Draw(grid.map);
 
         Enemy e = new Enemy(grid.GetTile(2, 2), 2, EnemyType.Zombie);
         root.getChildren().add(e);
 
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                Clock.Update();
+                e.Update();
+            }
+        }.start();
+
         return root;
 
     }
+
+    public void start(Stage window) throws Exception {
+        window.setTitle("Tower Defense");
+        Scene scene = new Scene(createContent(), Color.BLACK);
+        window.setScene(scene);
+        window.show();
+
+    }*/
 
     private void Draw(Tile[][] map){
         for (int i = 0; i < X_TILES; i++){
@@ -66,9 +87,51 @@ public class Game extends Application {
 
     public void start(Stage window) throws Exception {
         window.setTitle("Tower Defense");
-        Scene scene = new Scene(createContent(), Color.BLACK);
+        root = new Pane();
+        root.setPrefSize(W, H);
+
+        int[][] map = {
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,2,2,2,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        };
+
+        TileGrid grid = new TileGrid(map);
+        Draw(grid.map);
+
+        scene = new Scene(root, W, H);
+
         window.setScene(scene);
         window.show();
+
+        Enemy e = new Enemy(grid.GetTile(2, 2), 0.002, EnemyType.Zombie);
+        root.getChildren().add(e);
+
+        AnimationTimer gameLoop = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                Clock.Update();
+                e.Move();
+                e.Update();
+            }
+
+        };
+
+        gameLoop.start();
 
     }
 

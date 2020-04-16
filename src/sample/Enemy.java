@@ -4,29 +4,44 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
+import static sample.Clock.*;
+import static sample.Game.TILE_SIZE;
+
 public class Enemy extends StackPane {
 
-    private int x, y, health;
-    private float speed;
+    private float x, y, health;
+    private double speed;
     private EnemyType type;
 
-    private Tile startTile;
+    private boolean first = true;
 
-    private Image image;
     private ImageView iv;
 
-    public Enemy(Tile startTile, float speed, EnemyType type){
+    public Enemy(Tile startTile, double speed, EnemyType type){
         this.x = startTile.getX();
         this.y = startTile.getY();
         this.speed = speed;
         this.type = type;
 
-        image = new Image(type.fileName);
-        iv = new ImageView(image);
+        this.iv = new ImageView(new Image(type.fileName));
+
         getChildren().add(iv);
 
-        setTranslateX(x * Game.TILE_SIZE);
-        setTranslateY(y * Game.TILE_SIZE);
+        setTranslateX(x * TILE_SIZE);
+        setTranslateY(y * TILE_SIZE);
+    }
+
+    public void Move() {
+        if (first)
+            first = false;
+        else
+            x += (Delta() * speed) / TILE_SIZE;
+        System.out.println(x);
+    }
+
+    public void Update() {
+        setTranslateX(x * TILE_SIZE);
+        setTranslateY(y * TILE_SIZE);
     }
 
 }
