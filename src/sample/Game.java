@@ -8,9 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -57,14 +55,15 @@ public class Game extends Application {
 
         Player player = new Player(grid);
 
+        TowerCannon tower = new TowerCannon(grid.GetTile(14, 13), 10);
+
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 Clock.Update();
 
                 grid.Draw(gc);
-//                e.Update();
-//                e.Draw(gc);
+                tower.update(gc);
                 wave.Update(gc);
 
                 root.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
@@ -100,28 +99,6 @@ public class Game extends Application {
         window.show();
 
     }
-
-    /*
-
-        TowerCannon tower = new TowerCannon(grid.GetTile(12, 9), 10);
-
-        AnimationTimer gameLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-
-                if (!root.getChildren().contains(tower)){
-                    root.getChildren().add(tower);
-                }
-
-                for(Enemy i : wave.getEnemyList()){
-                    if(!i.isAlive()){
-                        root.getChildren().remove(i);
-                    }
-                }
-            }
-        };
-
-    }*/
 
     public static void main(String[] args) {
         launch(args);

@@ -15,7 +15,6 @@ public class Clock {
         long currentTime = getTime();
         int delta = (int) (currentTime - lastFrame);
         lastFrame = getTime();
-//        System.out.println(delta * 0.01f);
         return Math.min(delta * 0.01f, 1000 * 0.5f);
     }
 
