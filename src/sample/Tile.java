@@ -1,8 +1,11 @@
 package sample;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+
+import static sample.Game.TILE_SIZE;
 
 public class Tile extends StackPane {
 
@@ -17,14 +20,11 @@ public class Tile extends StackPane {
         this.y = y;
         this.type = type;
 
-        image = new Image(type.fileName);
-        iv = new ImageView(image);
-        iv.setPreserveRatio(true);
-        iv.setFitHeight(40);
-        getChildren().add(iv);
+        this.image = new Image(type.fileName);
+    }
 
-        setTranslateX(x * Game.TILE_SIZE);
-        setTranslateY(y * Game.TILE_SIZE);
+    public void Draw(GraphicsContext gc) {
+        gc.drawImage(image, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
     public int getX() {

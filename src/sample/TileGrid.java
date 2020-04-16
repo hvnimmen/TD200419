@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.canvas.GraphicsContext;
+
 import static sample.Game.*;
 
 public class TileGrid {
@@ -37,6 +39,14 @@ public class TileGrid {
                         map[i][j] = new Tile(i, j, TileType.Water);
                         break;
                 }
+            }
+        }
+    }
+
+    public void Draw(GraphicsContext gc) {
+        for (int i = 0; i < xTiles; i++) {
+            for (int j = 0; j < yTiles; j++) {
+                map[i][j].Draw(gc);
             }
         }
     }

@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -18,6 +19,7 @@ public class Enemy extends StackPane {
     private ImageView iv;
     private Tile startTile;
     private TileGrid grid;
+    private Image image;
 
     private ArrayList<Checkpoint> checkpoints;
     private int[] directions;
@@ -29,6 +31,7 @@ public class Enemy extends StackPane {
         this.speed = speed;
         this.type = type;
         this.grid = grid;
+        this.image = new Image(type.fileName);
 
         this.checkpoints = new ArrayList<>();
         this.directions = new int[2];
@@ -39,14 +42,13 @@ public class Enemy extends StackPane {
 
         this.iv = new ImageView(new Image(type.fileName));
 
-        getChildren().add(iv);
-
-        setTranslateX(x * TILE_SIZE);
-        setTranslateY(y * TILE_SIZE);
-
         directions = FindNextD(startTile);
         this.currentCheckpoint = 0;
         PopulateCheckpointList();
+    }
+
+    public void Draw(GraphicsContext gc) {
+        gc.drawImage(image, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
     public void Update() {
@@ -65,8 +67,6 @@ public class Enemy extends StackPane {
                 y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
             }
         }
-        setTranslateX(x * TILE_SIZE);
-        setTranslateY(y * TILE_SIZE);
     }
 
     private boolean CheckpointReached() {

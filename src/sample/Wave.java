@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.canvas.GraphicsContext;
+
 import java.util.ArrayList;
 
 import static sample.Clock.Delta;
@@ -14,19 +16,19 @@ public class Wave {
         this.enemyType = enemyType;
         this.spawnTime = spawnTime;
         timeSinceLastSpawn = spawnTime + 1;
-        enemyList = new ArrayList<Enemy>();
+        enemyList = new ArrayList<>();
     }
 
-    public void Update() {
+    public void Update(GraphicsContext gc) {
         timeSinceLastSpawn += Delta();
         if (timeSinceLastSpawn > spawnTime) {
             Spawn();
             timeSinceLastSpawn = 0;
         }
-
         for (Enemy e : enemyList) {
-            if (e.isAlive()) {
+            if (e.isAlive()){
                 e.Update();
+                e.Draw(gc);
             }
         }
     }
