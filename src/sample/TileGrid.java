@@ -6,15 +6,6 @@ public class TileGrid {
 
     public Tile[][] map;
 
-/*    public TileGrid() {
-        map = new Tile[X_TILES][Y_TILES];
-        for (int i = 0; i < X_TILES; i++){
-            for (int j = 0; j < Y_TILES; j++){
-                map[i][j] = new Tile(i, j, TileType.Grass);
-            }
-        }
-    }*/
-
     public TileGrid() {
         map = new Tile[X_TILES][Y_TILES];
         for (int i = 0; i < X_TILES; i++){

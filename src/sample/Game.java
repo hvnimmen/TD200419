@@ -13,7 +13,7 @@ public class Game extends Application {
 
     protected static final int TILE_SIZE = 40;
 
-    protected static final int X_TILES = 32;
+    protected static final int X_TILES = 24;
     protected static final int Y_TILES = 16;
 
     private static final int W = TILE_SIZE * X_TILES;
@@ -22,48 +22,46 @@ public class Game extends Application {
     private Scene scene;
     private Pane root;
 
-/*    private Parent createContent() {
+    private Parent createContent() {
 
         root = new Pane();
-
         root.setPrefSize(W, H);
 
         int[][] map = {
-                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,2,2,2,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,1,1,1,1,1,1,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };
-
-        //create layers
-        Pane foregroundLayer = new Pane();
-        Pane backgroundLayer = new Pane();
 
         TileGrid grid = new TileGrid(map);
         Draw(grid.map);
 
-        Enemy e = new Enemy(grid.GetTile(2, 2), 2, EnemyType.Zombie);
+        Enemy e = new Enemy(grid.GetTile(2, 2), 0.006, EnemyType.Zombie);
         root.getChildren().add(e);
 
-        new AnimationTimer() {
+        AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 Clock.Update();
+                e.Move();
                 e.Update();
             }
-        }.start();
+        };
+
+        gameLoop.start();
 
         return root;
 
@@ -75,7 +73,7 @@ public class Game extends Application {
         window.setScene(scene);
         window.show();
 
-    }*/
+    }
 
     private void Draw(Tile[][] map){
         for (int i = 0; i < X_TILES; i++){
@@ -85,7 +83,7 @@ public class Game extends Application {
         }
     }
 
-    public void start(Stage window) throws Exception {
+/*    public void start(Stage window) throws Exception {
         window.setTitle("Tower Defense");
         root = new Pane();
         root.setPrefSize(W, H);
@@ -133,7 +131,7 @@ public class Game extends Application {
 
         gameLoop.start();
 
-    }
+    }*/
 
     public static void main(String[] args) {
         launch(args);

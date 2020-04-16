@@ -9,12 +9,11 @@ import static sample.Game.TILE_SIZE;
 
 public class Enemy extends StackPane {
 
-    private float x, y, health;
+    private int health;
+    private float x, y;
     private double speed;
-    private EnemyType type;
-
     private boolean first = true;
-
+    private EnemyType type;
     private ImageView iv;
 
     public Enemy(Tile startTile, double speed, EnemyType type){
@@ -36,7 +35,6 @@ public class Enemy extends StackPane {
             first = false;
         else
             x += (Delta() * speed) / TILE_SIZE;
-        System.out.println(x);
     }
 
     public void Update() {
