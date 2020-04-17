@@ -36,7 +36,6 @@ public class Player {
     }
 
     public void addTower(int x, int y){
-        System.out.println("Tower added at coordinates" + x + ' ' + y);
         towerList.add(new TowerCannon(grid.GetTile(x, y), 10, waveManager.getCurrentWave().getEnemyList()));
     }
 

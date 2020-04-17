@@ -14,11 +14,11 @@ import static sample.Clock.*;
 
 public class TowerCannon extends StackPane {
 
-    private float x, y, timeSinceLastShot, coolDown;
+    private float x, y, timeSinceLastShot, coolDown, angle, offset;
     private int damage;
     private ImageView iv;
     private Tile startTile;
-    private Image baseImage, headImage;
+    private Image image;
     private ArrayList<Projectile> projectiles;
     private ArrayList<Enemy> enemies;
     private Enemy target;
@@ -32,20 +32,26 @@ public class TowerCannon extends StackPane {
         this.timeSinceLastShot = 0;
         this.projectiles = new ArrayList<Projectile>();
         this.enemies = enemies;
+        this.target = acquireTarget();
+        this.angle = calculateAngle();
 
-        this.baseImage = new Image("file:cannon-base.png");
-        this.headImage = new Image("file:cannon-head.png");
+        this.image = new Image("file:bow.png");
 
-        this.iv = new ImageView(headImage);
-        this.iv.setRotate(-45);
-        SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-        this.headImage = iv.snapshot(params, null);
+        this.iv = new ImageView(image);
+    }
+
+    private Enemy acquireTarget() {
+        return enemies.get(0);
+    }
+
+    private float calculateAngle() {
+        double tempAngle = Math.atan2(target.getY() - y, target.getX() - x);
+        return (float) Math.toDegrees(tempAngle) + 45;
     }
 
     private void shoot(){
         timeSinceLastShot = 0;
-        projectiles.add(new Projectile(x, y, 5, 10));
+        projectiles.add(new Projectile(target, x, y, 15, 10));
     }
 
     public void update(GraphicsContext gc){
@@ -56,12 +62,17 @@ public class TowerCannon extends StackPane {
             p.update(gc);
         }
 
+        angle = calculateAngle();
+        iv.setRotate(angle);
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        this.image = iv.snapshot(params, null);
+        offset = (float) ((this.image.getWidth() - TILE_SIZE) * 0.5);
         draw(gc);
     }
 
     public void draw(GraphicsContext gc) {
-        gc.drawImage(baseImage, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        gc.drawImage(headImage, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        gc.drawImage(image, (x * TILE_SIZE) - offset, (y * TILE_SIZE) - offset);
     }
 
 
