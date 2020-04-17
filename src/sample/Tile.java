@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-import static sample.Game.TILE_SIZE;
+import static sample.Boot.TILE_SIZE;
 
 public class Tile extends StackPane {
 

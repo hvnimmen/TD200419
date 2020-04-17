@@ -5,10 +5,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-import java.util.Random;
-
 import static sample.Clock.*;
-import static sample.Game.TILE_SIZE;
+import static sample.Boot.TILE_SIZE;
 
 public class Enemy extends StackPane {
 
@@ -36,7 +34,7 @@ public class Enemy extends StackPane {
         this.grid = grid;
 //        this.image = new Image(type.fileName);
         this.hugsLeft = hugsLeft;
-        if(hugsLeft){
+        if(!hugsLeft){
             this.speed *= 1.5;
             this.image = new Image("file:spider-face.png");
         } else {

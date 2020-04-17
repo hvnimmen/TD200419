@@ -1,10 +1,5 @@
 package sample;
 
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-
-import static sample.Game.*;
-
 public class Player {
 
     private TileGrid grid;

@@ -2,8 +2,6 @@ package sample;
 
 import javafx.scene.canvas.GraphicsContext;
 
-import static sample.Game.*;
-
 public class TileGrid {
 
     public Tile[][] map;
