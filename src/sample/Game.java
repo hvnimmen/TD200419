@@ -55,24 +55,26 @@ public class Game {
         Scene scene = new Scene(root, W, H);
 
         scene.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
-            if (key.getCode() == KeyCode.G){
-                System.out.println("key pressed is G");
-                player.setEditor(true);
-                player.SetIndex(0);
-            }
-            if (key.getCode() == KeyCode.D){
-                System.out.println("key pressed is D");
-                player.setEditor(true);
-                player.SetIndex(1);
-            }
-            if (key.getCode() == KeyCode.W){
-                System.out.println("key pressed is W");
-                player.setEditor(true);
-                player.SetIndex(2);
-            }
-            if (key.getCode() == KeyCode.T){
-                System.out.println("key pressed is T");
-                player.setEditor(false);
+            switch (key.getCode()) {
+                case G:
+                    player.SetIndex(0);
+                    break;
+                case W:
+                    player.SetIndex(1);
+                    break;
+                case D:
+                    player.SetIndex(2);
+                    break;
+                case T:
+                    player.setEditor(false);
+                    break;
+                case F:
+                    Clock.changeMultiplier(0.2f);
+                    break;
+                case B:
+                    Clock.changeMultiplier(-0.2f);
+                    break;
+
             }
         });
 

@@ -29,6 +29,12 @@ public class Clock {
         return totalTime;
     }
 
+    public static void changeMultiplier (float change) {
+        if (multiplier + change >= -1 && multiplier * change <= 7) {
+            multiplier += change;
+        }
+    }
+
     public static float Multiplier() {
         return multiplier;
     }

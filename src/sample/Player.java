@@ -49,6 +49,7 @@ public class Player {
 
     public void SetIndex(int index) {
         this.index = index;
+        setEditor(true);
     }
 
     public boolean isEditor() {
