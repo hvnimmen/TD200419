@@ -14,9 +14,11 @@ public class Wave {
 
     public Wave(float spawnTime, Enemy enemyType) {
         this.enemyType = enemyType;
-        this.spawnTime = spawnTime;
-        timeSinceLastSpawn = spawnTime + 1;
+        this.spawnTime = spawnTime * 1000;  //convert into milliseconds
+        timeSinceLastSpawn = 0;
         enemyList = new ArrayList<>();
+
+        Spawn();
     }
 
     public void Update(GraphicsContext gc) {

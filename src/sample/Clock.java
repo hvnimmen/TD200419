@@ -15,7 +15,7 @@ public class Clock {
         long currentTime = getTime();
         int delta = (int) (currentTime - lastFrame);
         lastFrame = getTime();
-        return Math.min(delta * 0.01f, 1000 * 0.5f);
+        return Math.min(delta * 0.001f, 1000 * 0.05f);
     }
 
     public static float Delta() {

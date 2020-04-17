@@ -26,7 +26,7 @@ public class TowerCannon extends StackPane {
         this.x = startTile.getX();
         this.y = startTile.getY();
         this.damage = damage;
-        this.coolDown = 30000;
+        this.coolDown = 2000;
         this.timeSinceLastShot = 0;
         this.projectiles = new ArrayList<Projectile>();
 
@@ -34,7 +34,7 @@ public class TowerCannon extends StackPane {
         this.headImage = new Image("file:cannon-head.png");
 
         this.iv = new ImageView(headImage);
-        this.iv.setRotate(-90);
+        this.iv.setRotate(-45);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.headImage = iv.snapshot(params, null);
@@ -42,7 +42,7 @@ public class TowerCannon extends StackPane {
 
     private void shoot(){
         timeSinceLastShot = 0;
-        projectiles.add(new Projectile(x, y, (float)0.0001, 10));
+        projectiles.add(new Projectile(x, y, 5, 10));
     }
 
     public void update(GraphicsContext gc){

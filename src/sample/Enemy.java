@@ -60,8 +60,8 @@ public class Enemy extends StackPane {
             first = false;
         } else {
             if (canGoForward()){
-                x += Delta() * dir[0] * speed;
-                y += Delta() * dir[1] * speed;
+                x += Delta() * 0.001 * dir[0] * speed; //delta is in milliseconds
+                y += Delta() * 0.001 * dir[1] * speed;
             } else {
                 x = (int)(x+0.5);
                 y = (int)(y+0.5);
@@ -90,14 +90,14 @@ public class Enemy extends StackPane {
     }
 
     public boolean withinBounds() {
-        double nextX = x + Delta() * dir[0] * speed;
-        double nextY = y + Delta() * dir[1] * speed;
+        double nextX = x + Delta() * 0.001 * dir[0] * speed;
+        double nextY = y + Delta() * 0.001 * dir[1] * speed;
         return (0 <= nextX && nextX < grid.xTiles-1 && 0 <= nextY && nextY < grid.yTiles-1);
     }
 
     public boolean isPath() {
-        double nextX = x + Delta() * dir[0] * speed;
-        double nextY = y + Delta() * dir[1] * speed;
+        double nextX = x + Delta() * 0.001 * dir[0] * speed;
+        double nextY = y + Delta() * 0.001 * dir[1] * speed;
         if (dir[0] == 1)
             nextX += 1;
         else if (dir[1] == 1)

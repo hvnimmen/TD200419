@@ -33,34 +33,14 @@ public class Boot extends Application {
             {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
             {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+//            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     };
 
-    public void start(Stage window) {
-
-        VBox root = new VBox(); //maybe try with pane
-        Canvas c = new Canvas(W, H);
-        GraphicsContext gc = c.getGraphicsContext2D();
-        root.getChildren().add(c);
-
-        TileGrid grid = new TileGrid(map);
-
-//        Enemy e = new Enemy(grid.GetTile(0, 14), 0.0006, EnemyType.Zombie, grid, (Math.random() > 0.5));
-        Enemy e = new Enemy(grid.GetTile(0, 10), 0.0001, grid, (Math.random() > 0.5));
-        Wave wave = new Wave(10000, e);
-
-        Player player = new Player(grid);
-
-        TowerCannon tower = new TowerCannon(grid.GetTile(14, 13), 10);
-
+/*    public void start(Stage window) {
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                Clock.Update();
-
-                grid.Draw(gc);
-                tower.update(gc);
-//                wave.Update(gc);
 
                 root.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
                     int newX = (int)Math.floor(event.getX()/TILE_SIZE);
@@ -76,11 +56,6 @@ public class Boot extends Application {
 
             }
         };
-
-        gameLoop.start();
-
-        Scene scene = new Scene(root, W, H);
-
         scene.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
             if (key.getCode() == KeyCode.G)
                 player.SetIndex(0);
@@ -90,9 +65,22 @@ public class Boot extends Application {
                 player.SetIndex(2);
         });
 
-        window.setScene(scene);
-        window.setTitle("Tower Defense");
-        window.show();
+    }*/
+
+    public void start(Stage window){
+
+        Game game = new Game(map, window);
+
+        AnimationTimer gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                Clock.Update();
+
+                game.update();
+            }
+        };
+
+        gameLoop.start();
 
     }
 

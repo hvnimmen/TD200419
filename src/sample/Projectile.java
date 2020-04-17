@@ -23,8 +23,10 @@ public class Projectile {
     }
 
     public void update(GraphicsContext gc){
-        x += Delta() * speed;
-        y += Delta() * speed;
+        x += Delta() * 0.001 * speed;
+        y += Delta() * 0.001 * speed;
+        System.out.println(x);
+        System.out.println(y);
         draw(gc);
     }
 
