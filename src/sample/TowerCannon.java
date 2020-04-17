@@ -20,8 +20,10 @@ public class TowerCannon extends StackPane {
     private Tile startTile;
     private Image baseImage, headImage;
     private ArrayList<Projectile> projectiles;
+    private ArrayList<Enemy> enemies;
+    private Enemy target;
 
-    public TowerCannon(Tile startTile, int damage) {
+    public TowerCannon(Tile startTile, int damage, ArrayList<Enemy> enemies) {
         this.startTile = startTile;
         this.x = startTile.getX();
         this.y = startTile.getY();
@@ -29,6 +31,7 @@ public class TowerCannon extends StackPane {
         this.coolDown = 2000;
         this.timeSinceLastShot = 0;
         this.projectiles = new ArrayList<Projectile>();
+        this.enemies = enemies;
 
         this.baseImage = new Image("file:cannon-base.png");
         this.headImage = new Image("file:cannon-head.png");

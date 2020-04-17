@@ -28,9 +28,9 @@ public class Boot extends Application {
             {0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
             {0,0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
             {0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
-            {0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-            {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+            {2,0,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+            {2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+            {2,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
             {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 //            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -42,28 +42,8 @@ public class Boot extends Application {
             @Override
             public void handle(long l) {
 
-                root.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
-                    int newX = (int)Math.floor(event.getX()/TILE_SIZE);
-                    int newY = (int)Math.floor(event.getY()/TILE_SIZE);
-                    player.SetTile(newX, newY);
-                });
-
-                root.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
-                    int newX = (int)Math.floor(event.getX()/TILE_SIZE);
-                    int newY = (int)Math.floor(event.getY()/TILE_SIZE);
-                    player.SetTile(newX, newY);
-                });
-
             }
         };
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
-            if (key.getCode() == KeyCode.G)
-                player.SetIndex(0);
-            if (key.getCode() == KeyCode.D)
-                player.SetIndex(1);
-            if (key.getCode() == KeyCode.W)
-                player.SetIndex(2);
-        });
 
     }*/
 
