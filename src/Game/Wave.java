@@ -22,23 +22,22 @@ public class Wave {
         this.enemyList = new ArrayList<>();
         this.waveCompleted = false;
 
-        Spawn();
+        spawn();
     }
 
-    public void Update(GraphicsContext gc) {
+    public void update(GraphicsContext gc) {
         boolean allEnemiesDead = true;
         if (enemyList.size() < enemiesPerWave) {
             timeSinceLastSpawn += Delta();
             if (timeSinceLastSpawn > spawnTime) {
-                Spawn();
+                spawn();
                 timeSinceLastSpawn = 0;
             }
         }
         for (Enemy e : enemyList) {
             if (e.isAlive()){
                 allEnemiesDead = false;
-                e.Update();
-                e.Draw(gc);
+                e.update(gc);
             }
         }
         if (allEnemiesDead){
@@ -46,7 +45,7 @@ public class Wave {
         }
     }
 
-    private void Spawn() {
+    private void spawn() {
         Enemy e = new Enemy(enemyType.getStartTile(), enemyType.getSpeed(), enemyType.getGrid(), (Math.random() > 0.5), 50);
         enemyList.add(e);
     }

@@ -8,8 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import static Game.Boot.*;
-import static Game.Boot.TILE_SIZE;
+import static Game.Game.*;
 import static Game.Leveller.*;
 
 public class Editor {
@@ -17,31 +16,46 @@ public class Editor {
     private int index;
     private TileGrid grid;
     private TileType[] types;
+
+    private VBox root;
     private GraphicsContext gc;
+    private Stage window;
+    private Canvas c;
+    private Scene scene;
 
     public Editor() {
         this.types = new TileType[3];
         this.types[0] = TileType.Grass;
         this.types[1] = TileType.Dirt;
         this.types[2] = TileType.Water;
-        this.grid = loadMap("map");
-//        this.grid = new TileGrid();
 
-        VBox root = new VBox(); //maybe try with pane
-        Canvas c = new Canvas(W, H);
+//        this.grid = new TileGrid();
+        this.grid = loadMap("map");
+
+        window = new Stage();
+
+        showWindow();
+    }
+
+    public void showWindow() {
+
+        root = new VBox(); //maybe try with pane
+        c = new Canvas(W, H);
         gc = c.getGraphicsContext2D();
         root.getChildren().add(c);
 
-        root.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
+        root.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             int newX = (int)Math.floor(event.getX()/TILE_SIZE);
             int newY = (int)Math.floor(event.getY()/TILE_SIZE);
-            SetTile(newX, newY);
+            setTile(newX, newY);
         });
 
         root.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
-            int newX = (int)Math.floor(event.getX()/TILE_SIZE);
-            int newY = (int)Math.floor(event.getY()/TILE_SIZE);
-            SetTile(newX, newY);
+            if (0 < event.getX() && event.getX() < W && 0 < event.getY() && event.getY() < H) {
+                int newX = (int) Math.floor(event.getX() / TILE_SIZE);
+                int newY = (int) Math.floor(event.getY() / TILE_SIZE);
+                setTile(newX, newY);
+            }
         });
 
         Scene scene = new Scene(root, W, H);
@@ -49,13 +63,13 @@ public class Editor {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
             switch (key.getCode()) {
                 case G:
-                    SetIndex(0);
+                    setIndex(0);
                     break;
                 case D:
-                    SetIndex(1);
+                    setIndex(1);
                     break;
                 case W:
-                    SetIndex(2);
+                    setIndex(2);
                     break;
                 case S:
                     saveMap("map", grid);
@@ -63,21 +77,20 @@ public class Editor {
             }
         });
 
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Tower Defense");
-        stage.show();
+        window.setScene(scene);
+        window.setTitle("Tower Defense");
+        window.show();
     }
 
-    private void SetTile(int x, int y) {
-        grid.SetTile(x, y, types[index]);
+    private void setTile(int x, int y) {
+        grid.setTile(x, y, types[index]);
     }
 
-    public void SetIndex(int index) {
+    public void setIndex(int index) {
         this.index = index;
     }
 
     public void update(){
-        grid.Draw(gc);
+        grid.draw(gc);
     }
 }

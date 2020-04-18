@@ -3,15 +3,14 @@ package Game;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 
 import static Game.Clock.*;
-import static Game.Boot.TILE_SIZE;
+import static Game.Game.*;
 
-public class Enemy extends StackPane {
+public class Enemy implements Entity{
 
     private int health, displayX, displayY;
-    private double x, y, speed, width, height;
+    private float x, y, speed, width, height;
     private boolean first = true, alive = true;
     private EnemyType type;
     private ImageView iv;
@@ -24,7 +23,7 @@ public class Enemy extends StackPane {
     private int[] dir;
 
 //    public Enemy(Tile startTile, double speed, EnemyType type, TileGrid grid, boolean hugsLeft){
-    public Enemy(Tile startTile, double speed, TileGrid grid, boolean hugsLeft, int health){
+    public Enemy(Tile startTile, float speed, TileGrid grid, boolean hugsLeft, int health){
         this.x = startTile.getX();
         this.y = startTile.getY();
         this.displayX = (int)(x * TILE_SIZE);
@@ -48,11 +47,11 @@ public class Enemy extends StackPane {
         this.dir[1] = 0;
     }
 
-    public void Draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         gc.drawImage(image, displayX, displayY, TILE_SIZE, TILE_SIZE);
     }
 
-    public void Update() {
+    public void update(GraphicsContext gc) {
         if (first) {
             first = false;
         } else {
@@ -67,6 +66,7 @@ public class Enemy extends StackPane {
             displayX = (int)(x * TILE_SIZE);
             displayY = (int)(y * TILE_SIZE);
         }
+        draw(gc);
     }
 
     private void rotate() {
@@ -80,7 +80,7 @@ public class Enemy extends StackPane {
             dir = new int[]{-dir[0], -dir[1]};
         }
         if (!canGoForward()){
-            Die();
+            die();
         }
     }
 
@@ -101,19 +101,19 @@ public class Enemy extends StackPane {
             nextX += 1;
         else if (dir[1] == 1)
             nextY += 1;
-        Tile currentTile = grid.GetTile((int)x, (int)y);
-        Tile nextTile = grid.GetTile((int)nextX, (int)nextY);
+        Tile currentTile = grid.getTile((int)x, (int)y);
+        Tile nextTile = grid.getTile((int)nextX, (int)nextY);
         return (currentTile.getType() == nextTile.getType());
     }
 
     public void damage(int damage) {
         health -= damage;
         if (health <= 0) {
-            Die();
+            die();
         }
     }
 
-    private void Die() {
+    private void die() {
         alive = false;
     }
 
@@ -125,7 +125,7 @@ public class Enemy extends StackPane {
         this.health = health;
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
 
@@ -133,7 +133,7 @@ public class Enemy extends StackPane {
         this.x = x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 
@@ -141,11 +141,11 @@ public class Enemy extends StackPane {
         this.y = y;
     }
 
-    public double getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
 
@@ -197,7 +197,7 @@ public class Enemy extends StackPane {
         this.alive = alive;
     }
 
-    public int getDisplayX() {
+    public float getDisplayX() {
         return displayX;
     }
 
@@ -205,7 +205,7 @@ public class Enemy extends StackPane {
         this.displayX = displayX;
     }
 
-    public int getDisplayY() {
+    public float getDisplayY() {
         return displayY;
     }
 

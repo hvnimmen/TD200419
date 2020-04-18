@@ -18,23 +18,29 @@ public class MainMenu {
     private Image image;
     private UserInterface menuUI;
     private Pane root;
+    private Canvas c;
+    private Scene scene;
+    private Stage stage;
 
     public MainMenu(){
+        showWindow();
+    }
 
+    private void showWindow() {
         root = new Pane(); //maybe try with pane
-        Canvas c = new Canvas(W, H);
+        c = new Canvas(W, H);
         root.getChildren().add(c);
 
-        this.gc = c.getGraphicsContext2D();
-        this.image = new Image("file:main-menu.png");
+        gc = c.getGraphicsContext2D();
+        image = new Image("file:main-menu.png");
 
-        Scene scene = new Scene(root, W, H);
-        Stage stage = new Stage();
+        scene = new Scene(root, W, H);
+        stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Tower Defense");
         stage.show();
 
-        this.menuUI = new UserInterface();
+        menuUI = new UserInterface();
         menuUI.addButton("play", "file:play-button.png", W/2, H/2);
         menuUI.addButton("editor","file:editor-button.png", W/3, H*3/4);
         menuUI.addButton("quit", "file:quit-button.png", W*2/3, H*3/4);

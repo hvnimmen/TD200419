@@ -3,7 +3,6 @@ package Game;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -13,6 +12,14 @@ import static Game.Boot.*;
 
 public class Game {
 
+    protected static final int TILE_SIZE = 64;
+
+    protected static final int X_TILES = 20;
+    protected static final int Y_TILES = 12;
+
+    protected static final int W = TILE_SIZE * X_TILES;
+    protected static final int H = TILE_SIZE * Y_TILES;
+
     private TileGrid grid;
     private Wave wave;
     private WaveManager waveManager;
@@ -21,11 +28,13 @@ public class Game {
     private VBox root;
     private GraphicsContext gc;
     private Stage window;
+    private Canvas c;
+    private Scene scene;
 
     public Game(int[][] map) {
 
         grid = new TileGrid(map);
-        waveManager = new WaveManager(new Enemy(grid.GetTile(0, 10), 1, grid, (Math.random() > 0.5), 50),
+        waveManager = new WaveManager(new Enemy(grid.getTile(0, 10), 1, grid, (Math.random() > 0.5), 50),
                 2, 1);
         player = new Player(grid, waveManager);
 
@@ -38,7 +47,7 @@ public class Game {
     public void showWindow() {
 
         root = new VBox(); //maybe try with pane
-        Canvas c = new Canvas(W, H);
+        c = new Canvas(W, H);
         gc = c.getGraphicsContext2D();
         root.getChildren().add(c);
 
@@ -55,7 +64,7 @@ public class Game {
 //            System.out.println("displaying crosshairs");
 //        });
 
-        Scene scene = new Scene(root, W, H);
+        scene = new Scene(root, W, H);
 
         scene.addEventFilter(KeyEvent.KEY_RELEASED, key -> {
             switch (key.getCode()) {
@@ -65,7 +74,10 @@ public class Game {
                 case B:
                     Clock.changeMultiplier(-0.2f);
                     break;
-
+                case SPACE:
+                    System.out.println("handling space event");
+                    player.switchTower();
+                    break;
             }
         });
 
@@ -77,7 +89,7 @@ public class Game {
 
     public void update() {
 
-        grid.Draw(gc);
+        grid.draw(gc);
         waveManager.update(gc);
         player.update(gc);
 

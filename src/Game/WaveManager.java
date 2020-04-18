@@ -23,7 +23,7 @@ public class WaveManager {
 
     public void update(GraphicsContext gc) {
         if (!currentWave.isCompleted())
-            currentWave.Update(gc);
+            currentWave.update(gc);
         else
             newWave();
     }

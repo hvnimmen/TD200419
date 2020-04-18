@@ -2,7 +2,7 @@ package Game;
 
 import javafx.scene.canvas.GraphicsContext;
 
-import static Game.Boot.*;
+import static Game.Game.*;
 
 public class TileGrid {
 
@@ -45,7 +45,7 @@ public class TileGrid {
         }
     }
 
-    public void Draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         for (int i = 0; i < xTiles; i++) {
             for (int j = 0; j < yTiles; j++) {
                 map[i][j].Draw(gc);
@@ -53,11 +53,11 @@ public class TileGrid {
         }
     }
 
-    public void SetTile(int x, int y, TileType type){
+    public void setTile(int x, int y, TileType type){
         map[x][y] = new Tile(x, y, type);
     }
 
-    public Tile GetTile(int x, int y) {
+    public Tile getTile(int x, int y) {
         if (x < xTiles && y < yTiles && x > -1 && y > -1)
             return map[x][y];
         else

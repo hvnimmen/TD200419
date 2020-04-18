@@ -8,7 +8,7 @@ public class Leveller {
         String mapData = "";
         for (int i = 0; i < grid.getxTiles(); i++){
             for (int j = 0; j < grid.getyTiles(); j++){
-                mapData += getTileID(grid.GetTile(i, j));
+                mapData += getTileID(grid.getTile(i, j));
             }
         }
         try {
@@ -28,9 +28,10 @@ public class Leveller {
             String data = br.readLine();
             for (int i = 0; i < grid.getxTiles(); i++) {
                 for (int j = 0; j < grid.getyTiles(); j++) {
-                    grid.SetTile(i, j, getTileType(data.substring(i * grid.getyTiles() + j, i * grid.getyTiles() + j + 1)));
+                    grid.setTile(i, j, getTileType(data.substring(i * grid.getyTiles() + j, i * grid.getyTiles() + j + 1)));
                 }
             }
+            br.close();
         } catch (Exception e) {
             e.printStackTrace();;
         }

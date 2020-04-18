@@ -7,19 +7,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 import static Game.Clock.Delta;
-import static Game.Boot.TILE_SIZE;
+import static Game.Game.*;
 
-public class Projectile {
+public class Projectile implements Entity {
 
-    private float x, y, speed, xVelocity, yVelocity, angle, offset;
-    private double displayX, displayY;
+    private float x, y, displayX, displayY, speed, xVelocity, yVelocity, angle;
     private int damage, width, height, size = 32;
     private Image image;
     private ImageView iv;
     private Enemy target;
     private boolean hasCollided;
 
-    public Projectile(Enemy target,float x, float y, float speed, int damage){
+    public Projectile(String fileName, Enemy target,float x, float y, float speed, int damage){
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -27,7 +26,7 @@ public class Projectile {
         this.target = target;
         this.xVelocity = 0;
         this.yVelocity = 0;
-        this.image = new Image("file:arrow.png");
+        this.image = new Image(fileName);
         this.hasCollided = false;
 
         this.angle = calculateAngle();
@@ -68,8 +67,8 @@ public class Projectile {
             x += Delta() * 0.001 * xVelocity * speed;
             y += Delta() * 0.001 * yVelocity * speed;
 
-            this.displayX = (x + 0.5) * TILE_SIZE - 0.5 * width;
-            this.displayY = (y + 0.5) * TILE_SIZE - 0.5 * height;
+            this.displayX = (x + 0.5f) * TILE_SIZE - 0.5f * width;
+            this.displayY = (y + 0.5f) * TILE_SIZE - 0.5f * height;
 
             draw(gc);
             projectileHitTarget();
@@ -86,5 +85,37 @@ public class Projectile {
 
     public void draw(GraphicsContext gc) {
         gc.drawImage(image, displayX, displayY);
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getDisplayX() {
+        return displayX;
+    }
+
+    public void setDisplayX(float displayX) {
+        this.displayX = displayX;
+    }
+
+    public float getDisplayY() {
+        return displayY;
+    }
+
+    public void setDisplayY(float displayY) {
+        this.displayY = displayY;
     }
 }
