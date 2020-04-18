@@ -13,7 +13,7 @@ public class Enemy implements Entity{
 
     private int displayX, displayY, angle;
     private float x, y, speed, health, maxHealth;
-    private boolean first = true, alive = true;
+    private boolean first, alive;
     private EnemyType type;
     private ImageView iv;
     private Tile startTile;
@@ -34,7 +34,8 @@ public class Enemy implements Entity{
         this.speed = speed;
         this.type = type;
         this.grid = grid;
-//        this.image = new Image(type.fileName);
+        this.first = true;
+        this.alive = true;
         this.hugsLeft = hugsLeft;
         if(!hugsLeft){
             this.speed *= 1.5;
@@ -76,8 +77,10 @@ public class Enemy implements Entity{
 
     public void draw(GraphicsContext gc) {
 
+        //enemy texture
         gc.drawImage(image, displayX, displayY, TILE_SIZE, TILE_SIZE);
 
+        //health bar texture
         float hpPercentage = health / maxHealth;
         gc.drawImage(healthBackground, displayX, displayY, TILE_SIZE, TILE_SIZE/8);
         gc.drawImage(healthForeground, displayX, displayY, TILE_SIZE*hpPercentage, TILE_SIZE/8);
@@ -85,6 +88,7 @@ public class Enemy implements Entity{
     }
 
     public void update(GraphicsContext gc) {
+        //Check if it's the first time this class is updated, if so do nothing
         if (first) {
             first = false;
         } else {
@@ -102,6 +106,7 @@ public class Enemy implements Entity{
         draw(gc);
     }
 
+    //pathfinding method
     private void rotate() {
         //inverted coordinates on this referential
         if (hugsLeft) {
@@ -131,6 +136,7 @@ public class Enemy implements Entity{
         }
     }
 
+    //run when dead end thus end of path
     public void getToEnd(){
         Player.changeHP(-1);
         die();
@@ -140,12 +146,14 @@ public class Enemy implements Entity{
         return (withinBounds() && isPath());
     }
 
+    //check if next tile is still in window/map
     public boolean withinBounds() {
         double nextX = x + Delta() * 0.001 * dir[0] * speed;
         double nextY = y + Delta() * 0.001 * dir[1] * speed;
         return (0 <= nextX && nextX < grid.xTiles-1 && 0 <= nextY && nextY < grid.yTiles-1);
     }
 
+    //check if next tile is path
     public boolean isPath() {
         double nextX = x + Delta() * 0.001 * dir[0] * speed;
         double nextY = y + Delta() * 0.001 * dir[1] * speed;
@@ -158,6 +166,7 @@ public class Enemy implements Entity{
         return (currentTile.getType() == nextTile.getType());
     }
 
+    //enemy takes damage from external source
     public void damage(int damage) {
         health -= damage;
         if (health <= 0) {
@@ -166,6 +175,7 @@ public class Enemy implements Entity{
         }
     }
 
+    //kills the enemy
     private void die() {
         alive = false;
     }

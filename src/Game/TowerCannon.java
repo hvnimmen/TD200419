@@ -78,7 +78,7 @@ public class TowerCannon extends StackPane implements Entity{
 
     private void shoot(){
         timeSinceLastShot = 0;
-        projectiles.add(new FreezeArrow("file:arrow.png", target, x, y, 15, 10));
+//        projectiles.add(new FreezeArrow("file:arrow.png", target, x, y, 15, 10));
     }
 
     public void updateEnemyList(ArrayList<Enemy> newList){

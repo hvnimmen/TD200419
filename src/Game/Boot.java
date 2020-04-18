@@ -8,6 +8,7 @@ public class Boot extends Application {
 
     public void start(Stage window){
 
+        //Main game loop
         new AnimationTimer() {
             public void handle(long l) {
                 Clock.Update();

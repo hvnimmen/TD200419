@@ -12,6 +12,8 @@ public class Player {
     private WaveManager waveManager;
     private ArrayList<Tower> towerList;
     private static int hp = 0, gold = 0;
+    private Tower tempTower;
+    private boolean holdingTower;
 
     public Player(TileGrid grid, WaveManager waveManager) {
         this.grid = grid;
@@ -22,6 +24,8 @@ public class Player {
         this.types[2] = TowerType.Flaming;
         this.waveManager = waveManager;
         this.towerList = new ArrayList<Tower>();
+        this.holdingTower = false;
+        this.tempTower = null;
     }
 
     public void setup(){
@@ -42,6 +46,13 @@ public class Player {
     }
 
     public void update(GraphicsContext gc){
+
+//        if (holdingTower) {
+//            tempTower.setX();
+//            tempTower.setY();
+//            tempTower.draw(gc);
+//        }
+
         for (Tower t : towerList){
             t.update(gc);
             t.updateEnemyList(waveManager.getCurrentWave().getEnemyList());
@@ -52,15 +63,15 @@ public class Player {
         switch(types[index]){
             case Archer:
                 if (changeGold(-10))
-                    towerList.add(new ArcherTower(grid.getTile(x, y), 100,5, waveManager.getCurrentWave().getEnemyList()));
+                    towerList.add(new ArcherTower(TowerType.Archer, grid.getTile(x, y), waveManager.getCurrentWave().getEnemyList()));
                 break;
             case Freeze:
                 if (changeGold(-30))
-                    towerList.add(new FreezeTower(grid.getTile(x, y), 100,5, waveManager.getCurrentWave().getEnemyList()));
+                    towerList.add(new FreezeTower(TowerType.Freeze, grid.getTile(x, y), waveManager.getCurrentWave().getEnemyList()));
                 break;
             case Flaming:
                 if (changeGold(-20))
-                    towerList.add(new FlamingTower(grid.getTile(x, y), 100,5, waveManager.getCurrentWave().getEnemyList()));
+                    towerList.add(new FlamingTower(TowerType.Flaming, grid.getTile(x, y), waveManager.getCurrentWave().getEnemyList()));
                 break;
         }
     }
@@ -78,5 +89,10 @@ public class Player {
 
     public void setGrid(TileGrid grid) {
         this.grid = grid;
+    }
+
+    public void pickTower(Tower t){
+        tempTower = t;
+        holdingTower = true;
     }
 }

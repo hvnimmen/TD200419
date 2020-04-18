@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TD 20/04/18 23:35">
+    <output-path>$PROJECT_DIR$/out/artifacts/TD_20_04_18_23_35</output-path>
+    <root id="archive" name="Tower Defense April 15.jar">
+      <element id="module-output" name="Tower Defense April 15" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/src.zip" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/javafx-swt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/javafx.web.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/javafx.base.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/javafx.fxml.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/javafx.media.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/javafx.swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/javafx.controls.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programmation OO/javafx-sdk-13.0.2-20200310T185118Z-001/javafx-sdk-13.0.2/lib/javafx.graphics.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

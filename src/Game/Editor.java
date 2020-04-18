@@ -24,12 +24,11 @@ public class Editor {
     private Scene scene;
 
     public Editor() {
+        this.index = 0;
         this.types = new TileType[3];
         this.types[0] = TileType.Grass;
         this.types[1] = TileType.Dirt;
         this.types[2] = TileType.Water;
-
-//        this.grid = new TileGrid();
         this.grid = loadMap("map");
 
         window = new Stage();
@@ -37,6 +36,7 @@ public class Editor {
         showWindow();
     }
 
+    //Builds the editor window
     public void showWindow() {
 
         root = new VBox(); //maybe try with pane
@@ -86,6 +86,7 @@ public class Editor {
         grid.setTile(x, y, types[index]);
     }
 
+    //Allows editor to change which TileType is selected
     public void setIndex(int index) {
         this.index = index;
     }

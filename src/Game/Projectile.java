@@ -18,15 +18,15 @@ public abstract class Projectile implements Entity {
     private Enemy target;
     private boolean hasCollided;
 
-    public Projectile(String fileName, Enemy target,float x, float y, float speed, int damage){
+    public Projectile(ProjectileType type, Enemy target, float x, float y, int width, int height){
         this.x = x;
         this.y = y;
-        this.speed = speed;
-        this.damage = damage;
+        this.speed = type.speed;
+        this.damage = type.damage;
         this.target = target;
         this.xVelocity = 0;
         this.yVelocity = 0;
-        this.image = new Image(fileName);
+        this.image = type.image;
         this.hasCollided = false;
 
         this.angle = calculateAngle();

@@ -14,35 +14,36 @@ import static Game.Game.TILE_SIZE;
 
 public abstract class Tower implements Entity{
 
-    private int damage, range;
+    private int range;
     private float x, y, displayX, displayY, cooldown, timeSinceLastShot, offset;
     private TowerType towerType;
-    private ArrayList<Projectile> projectiles;
+    public ArrayList<Projectile> projectiles;
     private CopyOnWriteArrayList<Enemy> enemies;
     private boolean locked;
     private Image image;
     private ImageView imageView;
     private Enemy target;
+    public TowerType type;
 
-    public Tower(TowerType towerType, Tile startTile, int damage, int range, CopyOnWriteArrayList<Enemy> enemies){
+    public Tower(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies){
+        this.type = type;
+
         this.x = startTile.getX();
         this.y = startTile.getY();
 
         this.displayX = x * TILE_SIZE;
         this.displayY = y * TILE_SIZE;
 
-        this.towerType = towerType;
-        this.damage = damage;
-        this.range = range + 1;
+        this.range = type.range + 1;
 
-        this.cooldown = 2 * 1000;
+        this.cooldown = type.cooldown * 1000;
         this.timeSinceLastShot = 0;
 
         this.projectiles = new ArrayList<Projectile>();
         this.enemies = enemies;
         this.locked = false;
 
-        this.image = new Image(towerType.baseName, (double)TILE_SIZE, (double)TILE_SIZE, false, false);
+        this.image = type.image;
         this.imageView = new ImageView(image);
     }
 
@@ -77,10 +78,11 @@ public abstract class Tower implements Entity{
         return (float) Math.toDegrees(tempAngle) + 45;
     }
 
-    public void shoot(){
-        timeSinceLastShot = 0;
-        projectiles.add(new FreezeArrow(towerType.projectileName, target, x, y, 15, 10));
-    }
+    public abstract void shoot(Enemy target);
+
+//    public void shoot(){
+//        projectiles.add(new Arrow("file:arrow.png", target, x, y, 15, 10));
+//    }
 
     public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList){
         enemies = newList;
@@ -143,12 +145,6 @@ public abstract class Tower implements Entity{
     }
 
     public void update(GraphicsContext gc){
-//        System.out.println(locked);
-//        System.out.println("target is " + target);
-//        if (target != null) {
-//            System.out.println("target is alive " + target.isAlive());
-//            System.out.println("target is in range " + isInRange(target));
-//        }
         if (!locked) {
             target = acquireTarget();
         } else {
@@ -161,7 +157,8 @@ public abstract class Tower implements Entity{
             offset = (float) ((this.image.getWidth() - TILE_SIZE) * 0.5);
 
             if (timeSinceLastShot > cooldown){
-                shoot();
+                shoot(target);
+                timeSinceLastShot = 0;
             }
         }
 

@@ -2,14 +2,14 @@ package Game;
 
 public class FreezeArrow extends Projectile {
 
-    public FreezeArrow(String fileName, Enemy target, float x, float y, float speed, int damage) {
-        super(fileName, target, x, y, speed, damage);
+    public FreezeArrow(ProjectileType type, Enemy target, float x, float y, int width, int height) {
+        super(type, target, x, y, width, height);
     }
 
     @Override
     public void damage(){
-        super.damage();
         super.getTarget().setSpeed(getTarget().getSpeed()*0.75f);
+        super.damage();
     }
 
 }

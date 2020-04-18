@@ -1,5 +1,6 @@
 package Game;
 
+import UserInterface.UserInterface;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,6 +25,7 @@ public class Game {
     private Wave wave;
     private WaveManager waveManager;
     private Player player;
+    private UserInterface towerPickerUI;
 
     private VBox root;
     private GraphicsContext gc;
@@ -39,10 +41,17 @@ public class Game {
         player = new Player(grid, waveManager);
         player.setup();
 
+        setupUI();
+
         window = new Stage();
 
         showWindow();
 
+    }
+
+    private void setupUI(){
+        towerPickerUI = new UserInterface();
+        towerPickerUI.addButton("Archer", "file:bow.png", TILE_SIZE/2, TILE_SIZE/2);
     }
 
     public void showWindow() {
@@ -88,11 +97,24 @@ public class Game {
 
     }
 
+    public void updateUI() {
+        towerPickerUI.draw(gc);
+
+        root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            switch (towerPickerUI.isButtonPressed(event)){
+                case "Archer":
+                    player.pickTower(new FreezeTower(TowerType.Freeze, grid.getTile(0, 0),
+                            waveManager.getCurrentWave().getEnemyList()));
+            }
+        });
+    }
+
     public void update() {
 
         grid.draw(gc);
         waveManager.update(gc);
         player.update(gc);
+        updateUI();
 
     }
 
