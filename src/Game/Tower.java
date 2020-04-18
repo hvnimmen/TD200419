@@ -149,22 +149,9 @@ public abstract class Tower implements Entity{
 //            System.out.println("target is alive " + target.isAlive());
 //            System.out.println("target is in range " + isInRange(target));
 //        }
-        if(target == null || !target.isAlive() || !isInRange(target)){
-            locked = false;
-        }
         if (!locked) {
             target = acquireTarget();
-        } else if (timeSinceLastShot > cooldown) {
-            shoot();
-        }
-
-        timeSinceLastShot += Delta();
-
-        for (Projectile p : projectiles){
-            p.update(gc);
-        }
-
-        if (locked) {
+        } else {
 
             float angle = calculateAngle();
             imageView.setRotate(angle);
@@ -173,6 +160,19 @@ public abstract class Tower implements Entity{
             this.image = imageView.snapshot(params, null);
             offset = (float) ((this.image.getWidth() - TILE_SIZE) * 0.5);
 
+            if (timeSinceLastShot > cooldown){
+                shoot();
+            }
+        }
+
+        if(target == null || !target.isAlive() || !isInRange(target)){
+            locked = false;
+        }
+
+        timeSinceLastShot += Delta();
+
+        for (Projectile p : projectiles){
+            p.update(gc);
         }
 
         draw(gc);

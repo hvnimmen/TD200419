@@ -33,6 +33,7 @@ public class WaveManager {
         waveNumber++;
         enemiesPerWave += 2;
         spawnTime *= 0.75;
+        System.out.println("Deploying Wave no. " + waveNumber);
     }
 
     public Wave getCurrentWave() {
