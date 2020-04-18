@@ -24,7 +24,7 @@ public class Enemy extends StackPane {
     private int[] dir;
 
 //    public Enemy(Tile startTile, double speed, EnemyType type, TileGrid grid, boolean hugsLeft){
-    public Enemy(Tile startTile, double speed, TileGrid grid, boolean hugsLeft){
+    public Enemy(Tile startTile, double speed, TileGrid grid, boolean hugsLeft, int health){
         this.x = startTile.getX();
         this.y = startTile.getY();
         this.displayX = (int)(x * TILE_SIZE);
@@ -41,6 +41,7 @@ public class Enemy extends StackPane {
         } else {
             this.image = new Image("file:zombie-face.png");
         }
+        this.health = health;
 
         this.dir = new int[2];
         this.dir[0] = 1;
@@ -103,6 +104,13 @@ public class Enemy extends StackPane {
         Tile currentTile = grid.GetTile((int)x, (int)y);
         Tile nextTile = grid.GetTile((int)nextX, (int)nextY);
         return (currentTile.getType() == nextTile.getType());
+    }
+
+    public void damage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            Die();
+        }
     }
 
     private void Die() {

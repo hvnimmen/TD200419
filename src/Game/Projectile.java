@@ -80,6 +80,7 @@ public class Projectile {
         if (target.getDisplayX() < displayX + width && displayX < target.getDisplayX() + TILE_SIZE &&
                 target.getDisplayY()  < displayY + height && displayY < target.getDisplayY() + TILE_SIZE) {
             hasCollided = true;
+            target.damage(damage);
         }
     }
 
