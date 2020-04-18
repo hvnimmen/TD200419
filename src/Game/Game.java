@@ -36,23 +36,19 @@ public class Game {
     public Game(int[][] map) {
 
         grid = new TileGrid(map);
-        waveManager = new WaveManager(new Enemy(grid.getTile(0, 10), 1, grid, (Math.random() > 0.5), 50),
-                2, 1);
+        waveManager = new WaveManager(new Enemy(grid.getTile(0, 10), 1, grid,
+                (Math.random() > 0.5), 50), 2, 1);
         player = new Player(grid, waveManager);
         player.setup();
-
-        setupUI();
-
+//        setupUI();
         window = new Stage();
-
         showWindow();
-
     }
 
-    private void setupUI(){
-        towerPickerUI = new UserInterface();
-        towerPickerUI.addButton("Archer", "file:bow.png", TILE_SIZE/2, TILE_SIZE/2);
-    }
+//    private void setupUI(){
+//        towerPickerUI = new UserInterface();
+//        towerPickerUI.addButton("Archer", "file:bow.png", TILE_SIZE/2, TILE_SIZE/2);
+//    }
 
     public void showWindow() {
 
@@ -84,10 +80,10 @@ public class Game {
                 case B:
                     Clock.changeMultiplier(-0.2f);
                     break;
-                case SPACE:
-                    System.out.println("handling space event");
-                    player.switchTower();
-                    break;
+//                case SPACE:
+//                    System.out.println("handling space event");
+//                    player.switchTower();
+//                    break;
             }
         });
 
@@ -97,24 +93,24 @@ public class Game {
 
     }
 
-    public void updateUI() {
-        towerPickerUI.draw(gc);
-
-        root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            switch (towerPickerUI.isButtonPressed(event)){
-                case "Archer":
-                    player.pickTower(new FreezeTower(TowerType.Freeze, grid.getTile(0, 0),
-                            waveManager.getCurrentWave().getEnemyList()));
-            }
-        });
-    }
+//    public void updateUI() {
+//        towerPickerUI.draw(gc);
+//
+//        root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+//            switch (towerPickerUI.isButtonPressed(event)){
+//                case "Archer":
+//                    player.pickTower(new FreezeTower(TowerType.Freeze, grid.getTile(0, 0),
+//                            waveManager.getCurrentWave().getEnemyList()));
+//            }
+//        });
+//    }
 
     public void update() {
 
         grid.draw(gc);
         waveManager.update(gc);
         player.update(gc);
-        updateUI();
+//        updateUI();
 
     }
 
