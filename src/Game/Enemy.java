@@ -10,8 +10,8 @@ import static Game.Boot.TILE_SIZE;
 
 public class Enemy extends StackPane {
 
-    private int health, currentCheckpoint;
-    private double x, y, speed;
+    private int health, displayX, displayY;
+    private double x, y, speed, width, height;
     private boolean first = true, alive = true;
     private EnemyType type;
     private ImageView iv;
@@ -21,13 +21,14 @@ public class Enemy extends StackPane {
     private Tile endTile = new Tile(0, 0, TileType.Dirt);
     private boolean hugsLeft;
 
-//    private ArrayList<Checkpoint> checkpoints;
     private int[] dir;
 
 //    public Enemy(Tile startTile, double speed, EnemyType type, TileGrid grid, boolean hugsLeft){
     public Enemy(Tile startTile, double speed, TileGrid grid, boolean hugsLeft){
         this.x = startTile.getX();
         this.y = startTile.getY();
+        this.displayX = (int)(x * TILE_SIZE);
+        this.displayY = (int)(y * TILE_SIZE);
         this.startTile = startTile;
         this.speed = speed;
         this.type = type;
@@ -41,18 +42,13 @@ public class Enemy extends StackPane {
             this.image = new Image("file:zombie-face.png");
         }
 
-//        this.checkpoints = new ArrayList<>();
         this.dir = new int[2];
         this.dir[0] = 1;
         this.dir[1] = 0;
-
-        /*directions = FindNextD(startTile);
-        this.currentCheckpoint = 0;
-        PopulateCheckpointList();*/
     }
 
     public void Draw(GraphicsContext gc) {
-        gc.drawImage(image, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        gc.drawImage(image, displayX, displayY, TILE_SIZE, TILE_SIZE);
     }
 
     public void Update() {
@@ -67,6 +63,8 @@ public class Enemy extends StackPane {
                 y = (int)(y+0.5);
                 rotate();
             }
+            displayX = (int)(x * TILE_SIZE);
+            displayY = (int)(y * TILE_SIZE);
         }
     }
 
@@ -189,5 +187,21 @@ public class Enemy extends StackPane {
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public int getDisplayX() {
+        return displayX;
+    }
+
+    public void setDisplayX(int displayX) {
+        this.displayX = displayX;
+    }
+
+    public int getDisplayY() {
+        return displayY;
+    }
+
+    public void setDisplayY(int displayY) {
+        this.displayY = displayY;
     }
 }

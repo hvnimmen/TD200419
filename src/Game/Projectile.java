@@ -12,10 +12,12 @@ import static Game.Boot.TILE_SIZE;
 public class Projectile {
 
     private float x, y, speed, xVelocity, yVelocity, angle, offset;
-    private int damage, size = 32;
+    private double displayX, displayY;
+    private int damage, width, height, size = 32;
     private Image image;
     private ImageView iv;
     private Enemy target;
+    private boolean hasCollided;
 
     public Projectile(Enemy target,float x, float y, float speed, int damage){
         this.x = x;
@@ -26,14 +28,19 @@ public class Projectile {
         this.xVelocity = 0;
         this.yVelocity = 0;
         this.image = new Image("file:arrow.png");
+        this.hasCollided = false;
 
         this.angle = calculateAngle();
         this.iv = new ImageView(image);
+        this.iv.setPreserveRatio(true);
+        this.iv.setFitHeight(size);
         this.iv.setRotate(angle);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.image = iv.snapshot(params, null);
-        offset = (float) ((this.image.getWidth() - TILE_SIZE) * 0.5);
+
+        this.width = (int)this.image.getWidth();
+        this.height = (int)this.image.getHeight();
 
         calculateDirection();
     }
@@ -54,16 +61,29 @@ public class Projectile {
 
         xVelocity = xMovementPercent;
         yVelocity = yMovementPercent;
-
     }
 
     public void update(GraphicsContext gc){
-        x += Delta() * 0.001 * xVelocity * speed;
-        y += Delta() * 0.001 * yVelocity * speed;
-        draw(gc);
+        if (!hasCollided) {
+            x += Delta() * 0.001 * xVelocity * speed;
+            y += Delta() * 0.001 * yVelocity * speed;
+
+            this.displayX = (x + 0.5) * TILE_SIZE - 0.5 * width;
+            this.displayY = (y + 0.5) * TILE_SIZE - 0.5 * height;
+
+            draw(gc);
+            projectileHitTarget();
+        }
+    }
+
+    private void projectileHitTarget() {
+        if (target.getDisplayX() < displayX + width && displayX < target.getDisplayX() + TILE_SIZE &&
+                target.getDisplayY()  < displayY + height && displayY < target.getDisplayY() + TILE_SIZE) {
+            hasCollided = true;
+        }
     }
 
     public void draw(GraphicsContext gc) {
-        gc.drawImage(image, (x + 0.5) * TILE_SIZE - 0.5 * size - offset, (y + 0.5) * TILE_SIZE - 0.5 * size, size, size);
+        gc.drawImage(image, displayX, displayY);
     }
 }
