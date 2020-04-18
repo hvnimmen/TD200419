@@ -1,10 +1,11 @@
 package Game;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ArcherTower extends Tower{
 
-    public ArcherTower(Tile startTile, int damage, int range, ArrayList<Enemy> enemies){
+    public ArcherTower(Tile startTile, int damage, int range, CopyOnWriteArrayList<Enemy> enemies){
         super(TowerType.Archer, startTile, damage, range, enemies);
     }
 

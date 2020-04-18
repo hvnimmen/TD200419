@@ -3,6 +3,7 @@ package Game;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Game.Clock.Delta;
 
@@ -10,7 +11,7 @@ public class Wave {
 
     private float timeSinceLastSpawn, spawnTime;
     private Enemy enemyType;
-    private ArrayList<Enemy> enemyList;
+    private CopyOnWriteArrayList<Enemy> enemyList;
     private int enemiesPerWave;
     private boolean waveCompleted;
 
@@ -19,7 +20,7 @@ public class Wave {
         this.spawnTime = spawnTime * 1000;  //convert into milliseconds
         this.enemiesPerWave = enemiesPerWave;
         this.timeSinceLastSpawn = 0;
-        this.enemyList = new ArrayList<>();
+        this.enemyList = new CopyOnWriteArrayList<>();
         this.waveCompleted = false;
 
         spawn();
@@ -38,6 +39,8 @@ public class Wave {
             if (e.isAlive()){
                 allEnemiesDead = false;
                 e.update(gc);
+            } else {
+                enemyList.remove(e);
             }
         }
         if (allEnemiesDead){
@@ -74,11 +77,11 @@ public class Wave {
         this.enemyType = enemyType;
     }
 
-    public ArrayList<Enemy> getEnemyList() {
+    public CopyOnWriteArrayList<Enemy> getEnemyList() {
         return enemyList;
     }
 
-    public void setEnemyList(ArrayList<Enemy> enemyList) {
+    public void setEnemyList(CopyOnWriteArrayList<Enemy> enemyList) {
         this.enemyList = enemyList;
     }
 

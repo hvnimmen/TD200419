@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Game.Clock.Delta;
 import static Game.Game.TILE_SIZE;
@@ -17,13 +18,13 @@ public abstract class Tower implements Entity{
     private float x, y, displayX, displayY, cooldown, timeSinceLastShot, offset;
     private TowerType towerType;
     private ArrayList<Projectile> projectiles;
-    private ArrayList<Enemy> enemies;
+    private CopyOnWriteArrayList<Enemy> enemies;
     private boolean locked;
     private Image image;
     private ImageView imageView;
     private Enemy target;
 
-    public Tower(TowerType towerType, Tile startTile, int damage, int range, ArrayList<Enemy> enemies){
+    public Tower(TowerType towerType, Tile startTile, int damage, int range, CopyOnWriteArrayList<Enemy> enemies){
         this.x = startTile.getX();
         this.y = startTile.getY();
 
@@ -47,9 +48,9 @@ public abstract class Tower implements Entity{
 
     private Enemy acquireTarget() {
         Enemy closestEnemy = null;
+        double closestRange = 5;
         for (Enemy e : enemies){
-            double closestRange = 5;
-            if (isInRange(e) && getDistance(e) < closestRange) {
+            if (isInRange(e) && getDistance(e) < closestRange && e.isAlive()) {
                 closestEnemy = e;
                 closestRange = getDistance(e);
             }
@@ -81,7 +82,7 @@ public abstract class Tower implements Entity{
         projectiles.add(new FreezeArrow(towerType.projectileName, target, x, y, 15, 10));
     }
 
-    public void updateEnemyList(ArrayList<Enemy> newList){
+    public void updateEnemyList(CopyOnWriteArrayList<Enemy> newList){
         enemies = newList;
     }
 
@@ -151,13 +152,19 @@ public abstract class Tower implements Entity{
         if(target == null || !target.isAlive() || !isInRange(target)){
             locked = false;
         }
-        if(locked){
-            timeSinceLastShot += Delta();
-            if (timeSinceLastShot > cooldown)
-                shoot();
-            for (Projectile p : projectiles){
-                p.update(gc);
-            }
+        if (!locked) {
+            target = acquireTarget();
+        } else if (timeSinceLastShot > cooldown) {
+            shoot();
+        }
+
+        timeSinceLastShot += Delta();
+
+        for (Projectile p : projectiles){
+            p.update(gc);
+        }
+
+        if (locked) {
 
             float angle = calculateAngle();
             imageView.setRotate(angle);
@@ -165,9 +172,9 @@ public abstract class Tower implements Entity{
             params.setFill(Color.TRANSPARENT);
             this.image = imageView.snapshot(params, null);
             offset = (float) ((this.image.getWidth() - TILE_SIZE) * 0.5);
-        } else {
-            target = acquireTarget();
+
         }
+
         draw(gc);
     }
 
