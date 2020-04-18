@@ -48,12 +48,12 @@ public class Game {
             player.addTower(newX, newY);
         });
 
-        root.addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
-            int newDisplayX = (int)Math.floor(event.getX()/TILE_SIZE)*TILE_SIZE;
-            int newDisplayY = (int)Math.floor(event.getY()/TILE_SIZE)*TILE_SIZE;
-            gc.drawImage(new Image("file:crosshair.png"), newDisplayX, newDisplayY);
-            System.out.println("displaying crosshairs");
-        });
+//        root.addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
+//            int newDisplayX = (int)Math.floor(event.getX()/TILE_SIZE)*TILE_SIZE;
+//            int newDisplayY = (int)Math.floor(event.getY()/TILE_SIZE)*TILE_SIZE;
+//            gc.drawImage(new Image("file:crosshair.png"), newDisplayX, newDisplayY);
+//            System.out.println("displaying crosshairs");
+//        });
 
         Scene scene = new Scene(root, W, H);
 
@@ -80,7 +80,6 @@ public class Game {
         grid.Draw(gc);
         waveManager.update(gc);
         player.update(gc);
-
 
     }
 

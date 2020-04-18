@@ -26,11 +26,12 @@ public class Player {
     public void update(GraphicsContext gc){
         for (TowerCannon t : towerList){
             t.update(gc);
+            t.updateEnemyList(waveManager.getCurrentWave().getEnemyList());
         }
     }
 
     public void addTower(int x, int y){
-        towerList.add(new TowerCannon(grid.GetTile(x, y), 10, waveManager.getCurrentWave().getEnemyList()));
+        towerList.add(new TowerCannon(grid.GetTile(x, y), 10,5, waveManager.getCurrentWave().getEnemyList()));
     }
 
     public TileGrid getGrid() {

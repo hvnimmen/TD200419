@@ -14,26 +14,30 @@ import static Game.Clock.*;
 
 public class TowerCannon extends StackPane {
 
-    private float x, y, timeSinceLastShot, coolDown, angle, offset;
-    private int damage;
+    private float x, y, timeSinceLastShot, coolDown, angle, offset, displayX, displayY;
+    private int damage, range;
     private ImageView iv;
     private Tile startTile;
     private Image image;
     private ArrayList<Projectile> projectiles;
     private ArrayList<Enemy> enemies;
     private Enemy target;
+    private boolean locked;
 
-    public TowerCannon(Tile startTile, int damage, ArrayList<Enemy> enemies) {
+    public TowerCannon(Tile startTile, int damage, int range, ArrayList<Enemy> enemies) {
         this.startTile = startTile;
         this.x = startTile.getX();
         this.y = startTile.getY();
+        this.displayX = x * TILE_SIZE;
+        this.displayY = y * TILE_SIZE;
         this.damage = damage;
+        this.range = range;
         this.coolDown = 2000;
         this.timeSinceLastShot = 0;
         this.projectiles = new ArrayList<Projectile>();
         this.enemies = enemies;
-        this.target = acquireTarget();
-        this.angle = calculateAngle();
+        this.locked = false;
+//        this.angle = calculateAngle();
 
         this.image = new Image("file:bow.png");
 
@@ -41,7 +45,29 @@ public class TowerCannon extends StackPane {
     }
 
     private Enemy acquireTarget() {
-        return enemies.get(0);
+        Enemy closestEnemy = null;
+        for (Enemy e : enemies){
+            double closestRange = 5;
+            if (isInRange(e) && getDistance(e) < closestRange) {
+                closestEnemy = e;
+                closestRange = getDistance(e);
+            }
+        }
+        if (closestEnemy != null){
+            locked = true;
+        }
+
+        return closestEnemy;
+    }
+
+    private boolean isInRange(Enemy e) {
+        return getDistance(e) < range;
+    }
+
+    private double getDistance(Enemy e) {
+        double xDistance = Math.abs(x - e.getX());
+        double yDistance = Math.abs(y - e.getY());
+        return Math.sqrt(xDistance * xDistance + yDistance * yDistance);
     }
 
     private float calculateAngle() {
@@ -54,20 +80,33 @@ public class TowerCannon extends StackPane {
         projectiles.add(new Projectile(target, x, y, 15, 10));
     }
 
+    public void updateEnemyList(ArrayList<Enemy> newList){
+        enemies = newList;
+    }
+
     public void update(GraphicsContext gc){
-        timeSinceLastShot += Delta();
-        if (timeSinceLastShot > coolDown)
-            shoot();
-        for (Projectile p : projectiles){
-            p.update(gc);
+        if(target == null || !target.isAlive() || !isInRange(target)){
+            locked = false;
         }
 
-        angle = calculateAngle();
-        iv.setRotate(angle);
-        SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-        this.image = iv.snapshot(params, null);
-        offset = (float) ((this.image.getWidth() - TILE_SIZE) * 0.5);
+        if(locked){
+            timeSinceLastShot += Delta();
+            if (timeSinceLastShot > coolDown)
+                shoot();
+            for (Projectile p : projectiles){
+                p.update(gc);
+            }
+
+            angle = calculateAngle();
+            iv.setRotate(angle);
+            SnapshotParameters params = new SnapshotParameters();
+            params.setFill(Color.TRANSPARENT);
+            this.image = iv.snapshot(params, null);
+            offset = (float) ((this.image.getWidth() - TILE_SIZE) * 0.5);
+
+        } else {
+            target = acquireTarget();
+        }
         draw(gc);
     }
 
