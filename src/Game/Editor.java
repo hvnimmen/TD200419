@@ -24,7 +24,8 @@ public class Editor {
         this.types[0] = TileType.Grass;
         this.types[1] = TileType.Dirt;
         this.types[2] = TileType.Water;
-        this.grid = new TileGrid();
+        this.grid = loadMap("map");
+//        this.grid = new TileGrid();
 
         VBox root = new VBox(); //maybe try with pane
         Canvas c = new Canvas(W, H);
