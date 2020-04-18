@@ -7,12 +7,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 import static Game.Clock.Delta;
-import static Game.Game.*;
+import static Game.Game.TILE_SIZE;
 
-public class Projectile implements Entity {
+public abstract class Projectile implements Entity {
 
     private float x, y, displayX, displayY, speed, xVelocity, yVelocity, angle;
-    private int damage, width, height, size = 32;
+    private int damage, width, height, size = TILE_SIZE/2;
     private Image image;
     private ImageView iv;
     private Enemy target;
@@ -70,17 +70,21 @@ public class Projectile implements Entity {
             this.displayX = (x + 0.5f) * TILE_SIZE - 0.5f * width;
             this.displayY = (y + 0.5f) * TILE_SIZE - 0.5f * height;
 
+            if (projectileHitTarget()){
+                damage();
+            }
             draw(gc);
-            projectileHitTarget();
         }
     }
 
-    private void projectileHitTarget() {
-        if (target.getDisplayX() < displayX + width && displayX < target.getDisplayX() + TILE_SIZE &&
-                target.getDisplayY()  < displayY + height && displayY < target.getDisplayY() + TILE_SIZE) {
-            hasCollided = true;
-            target.damage(damage);
-        }
+    public boolean projectileHitTarget() {
+        return (target.getDisplayX() < displayX + width && displayX < target.getDisplayX() + TILE_SIZE &&
+                target.getDisplayY()  < displayY + height && displayY < target.getDisplayY() + TILE_SIZE);
+    }
+
+    public void damage(){
+        target.damage(damage);
+        hasCollided = true;
     }
 
     public void draw(GraphicsContext gc) {
@@ -117,5 +121,13 @@ public class Projectile implements Entity {
 
     public void setDisplayY(float displayY) {
         this.displayY = displayY;
+    }
+
+    public Enemy getTarget() {
+        return target;
+    }
+
+    public void setTarget(Enemy target) {
+        this.target = target;
     }
 }

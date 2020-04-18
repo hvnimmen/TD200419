@@ -1,29 +1,31 @@
 package Game;
 
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 import static Game.Clock.*;
 import static Game.Game.*;
 
 public class Enemy implements Entity{
 
-    private int health, displayX, displayY;
-    private float x, y, speed, width, height;
+    private int displayX, displayY, angle;
+    private float x, y, speed, health, maxHealth;
     private boolean first = true, alive = true;
     private EnemyType type;
     private ImageView iv;
     private Tile startTile;
     private TileGrid grid;
-    private Image image;
+    private Image image, healthBackground, healthForeground, healthBorder;
     private Tile endTile = new Tile(0, 0, TileType.Dirt);
     private boolean hugsLeft;
 
     private int[] dir;
 
 //    public Enemy(Tile startTile, double speed, EnemyType type, TileGrid grid, boolean hugsLeft){
-    public Enemy(Tile startTile, float speed, TileGrid grid, boolean hugsLeft, int health){
+    public Enemy(Tile startTile, float speed, TileGrid grid, boolean hugsLeft, float health){
         this.x = startTile.getX();
         this.y = startTile.getY();
         this.displayX = (int)(x * TILE_SIZE);
@@ -41,14 +43,45 @@ public class Enemy implements Entity{
             this.image = new Image("file:zombie-face.png");
         }
         this.health = health;
+        this.maxHealth = health;
+        this.healthBackground = new Image("file:health-bg.png");
+        this.healthForeground = new Image("file:health-fg.png");
+        this.healthBorder = new Image("file:health-border.png");
 
         this.dir = new int[2];
         this.dir[0] = 1;
         this.dir[1] = 0;
+
+        if (dir[0] == 0) {
+            if (dir[1] == 1){
+                angle = 180;
+            } else {
+                angle = 0;
+            }
+        }
+        if (dir[1] == 0) {
+            if (dir[0] == 1){
+                angle = 90;
+            } else {
+                angle = 270;
+            }
+        }
+
+        ImageView imageView = new ImageView(image);
+        imageView.setRotate(angle);
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        this.image = imageView.snapshot(params, null);
     }
 
     public void draw(GraphicsContext gc) {
+
         gc.drawImage(image, displayX, displayY, TILE_SIZE, TILE_SIZE);
+
+        float hpPercentage = health / maxHealth;
+        gc.drawImage(healthBackground, displayX, displayY, TILE_SIZE, TILE_SIZE/8);
+        gc.drawImage(healthForeground, displayX, displayY, TILE_SIZE*hpPercentage, TILE_SIZE/8);
+        gc.drawImage(healthBorder, displayX, displayY, TILE_SIZE, TILE_SIZE/8);
     }
 
     public void update(GraphicsContext gc) {
@@ -73,15 +106,34 @@ public class Enemy implements Entity{
         //inverted coordinates on this referential
         if (hugsLeft) {
             dir = new int[]{dir[1], -dir[0]};
+            angle = 270;
+            if (!canGoForward()){
+                dir = new int[]{-dir[0], -dir[1]};
+                angle = 90;
+            }
         } else {
             dir = new int[]{-dir[1], dir[0]};
+            angle = 90;
+            if (!canGoForward()){
+                dir = new int[]{-dir[0], -dir[1]};
+                angle = 270;
+            }
         }
+
+        ImageView imageView = new ImageView(image);
+        imageView.setRotate(angle);
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        this.image = imageView.snapshot(params, null);
+
         if (!canGoForward()){
-            dir = new int[]{-dir[0], -dir[1]};
+            getToEnd();
         }
-        if (!canGoForward()){
-            die();
-        }
+    }
+
+    public void getToEnd(){
+        Player.changeHP(-1);
+        die();
     }
 
     public boolean canGoForward() {
@@ -110,6 +162,7 @@ public class Enemy implements Entity{
         health -= damage;
         if (health <= 0) {
             die();
+            Player.changeGold(5);
         }
     }
 
@@ -117,11 +170,11 @@ public class Enemy implements Entity{
         alive = false;
     }
 
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(float health) {
         this.health = health;
     }
 

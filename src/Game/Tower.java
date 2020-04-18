@@ -41,14 +41,13 @@ public abstract class Tower implements Entity{
         this.enemies = enemies;
         this.locked = false;
 
-        this.image = new Image(towerType.baseName);
+        this.image = new Image(towerType.baseName, (double)TILE_SIZE, (double)TILE_SIZE, false, false);
         this.imageView = new ImageView(image);
     }
 
     private Enemy acquireTarget() {
         Enemy closestEnemy = null;
         for (Enemy e : enemies){
-            System.out.println(getDistance(e));
             double closestRange = 5;
             if (isInRange(e) && getDistance(e) < closestRange) {
                 closestEnemy = e;
@@ -77,9 +76,9 @@ public abstract class Tower implements Entity{
         return (float) Math.toDegrees(tempAngle) + 45;
     }
 
-    private void shoot(){
+    public void shoot(){
         timeSinceLastShot = 0;
-        projectiles.add(new Projectile(towerType.projectileName, target, x, y, 15, 10));
+        projectiles.add(new FreezeArrow(towerType.projectileName, target, x, y, 15, 10));
     }
 
     public void updateEnemyList(ArrayList<Enemy> newList){
@@ -110,11 +109,48 @@ public abstract class Tower implements Entity{
         this.y = y;
     }
 
+    public Enemy getTarget() {
+        return target;
+    }
+
+    public void setTarget(Enemy target) {
+        this.target = target;
+    }
+
+    public float getTimeSinceLastShot() {
+        return timeSinceLastShot;
+    }
+
+    public void setTimeSinceLastShot(float timeSinceLastShot) {
+        this.timeSinceLastShot = timeSinceLastShot;
+    }
+
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public void setProjectiles(ArrayList<Projectile> projectiles) {
+        this.projectiles = projectiles;
+    }
+
+    public TowerType getTowerType() {
+        return towerType;
+    }
+
+    public void setTowerType(TowerType towerType) {
+        this.towerType = towerType;
+    }
+
     public void update(GraphicsContext gc){
+//        System.out.println(locked);
+//        System.out.println("target is " + target);
+//        if (target != null) {
+//            System.out.println("target is alive " + target.isAlive());
+//            System.out.println("target is in range " + isInRange(target));
+//        }
         if(target == null || !target.isAlive() || !isInRange(target)){
             locked = false;
         }
-
         if(locked){
             timeSinceLastShot += Delta();
             if (timeSinceLastShot > cooldown)
@@ -129,7 +165,6 @@ public abstract class Tower implements Entity{
             params.setFill(Color.TRANSPARENT);
             this.image = imageView.snapshot(params, null);
             offset = (float) ((this.image.getWidth() - TILE_SIZE) * 0.5);
-
         } else {
             target = acquireTarget();
         }

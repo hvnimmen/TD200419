@@ -8,4 +8,10 @@ public class FreezeTower extends Tower{
         super(TowerType.Freeze, startTile, damage, range, enemies);
     }
 
+    @Override
+    public void shoot(){
+        setTimeSinceLastShot(0);
+        getProjectiles().add(new FreezeArrow(getTowerType().projectileName, getTarget(), getX(), getY(), 15, 100));
+    }
+
 }

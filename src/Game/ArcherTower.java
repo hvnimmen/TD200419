@@ -8,4 +8,10 @@ public class ArcherTower extends Tower{
         super(TowerType.Archer, startTile, damage, range, enemies);
     }
 
+    @Override
+    public void shoot(){
+        setTimeSinceLastShot(0);
+        getProjectiles().add(new Arrow(getTowerType().projectileName, getTarget(), getX(), getY(), 15, 10));
+    }
+
 }

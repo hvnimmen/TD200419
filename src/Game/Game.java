@@ -37,6 +37,7 @@ public class Game {
         waveManager = new WaveManager(new Enemy(grid.getTile(0, 10), 1, grid, (Math.random() > 0.5), 50),
                 2, 1);
         player = new Player(grid, waveManager);
+        player.setup();
 
         window = new Stage();
 
