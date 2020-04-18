@@ -26,7 +26,7 @@ public class Game {
 
         grid = new TileGrid(map);
         waveManager = new WaveManager(new Enemy(grid.GetTile(0, 10), 1, grid, (Math.random() > 0.5), 50),
-                2, 3);
+                2, 1);
         player = new Player(grid, waveManager);
 
         window = new Stage();

@@ -31,7 +31,7 @@ public class Player {
     }
 
     public void addTower(int x, int y){
-        towerList.add(new TowerCannon(grid.GetTile(x, y), 10,5, waveManager.getCurrentWave().getEnemyList()));
+        towerList.add(new TowerCannon(grid.GetTile(x, y), 10,1, waveManager.getCurrentWave().getEnemyList()));
     }
 
     public TileGrid getGrid() {

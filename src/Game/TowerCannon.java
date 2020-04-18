@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static Game.Boot.*;
 import static Game.Clock.*;
 
-public class TowerCannon extends StackPane {
+public class TowerCannon extends StackPane implements Entity{
 
     private float x, y, timeSinceLastShot, coolDown, angle, offset, displayX, displayY;
     private int damage, range;
@@ -31,7 +31,7 @@ public class TowerCannon extends StackPane {
         this.displayX = x * TILE_SIZE;
         this.displayY = y * TILE_SIZE;
         this.damage = damage;
-        this.range = range;
+        this.range = range + 1;
         this.coolDown = 2000;
         this.timeSinceLastShot = 0;
         this.projectiles = new ArrayList<Projectile>();
@@ -47,6 +47,7 @@ public class TowerCannon extends StackPane {
     private Enemy acquireTarget() {
         Enemy closestEnemy = null;
         for (Enemy e : enemies){
+            System.out.println(getDistance(e));
             double closestRange = 5;
             if (isInRange(e) && getDistance(e) < closestRange) {
                 closestEnemy = e;
@@ -82,6 +83,30 @@ public class TowerCannon extends StackPane {
 
     public void updateEnemyList(ArrayList<Enemy> newList){
         enemies = newList;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getDisplayX() {
+        return displayX;
+    }
+
+    public float getDisplayY() {
+        return displayY;
     }
 
     public void update(GraphicsContext gc){
