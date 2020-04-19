@@ -10,13 +10,14 @@ import static Game.Clock.Delta;
 public class Wave {
 
     private float timeSinceLastSpawn, spawnTime;
-    private Enemy enemyType;
+    private Enemy enemy;
+    private EnemyType enemyType;
     private CopyOnWriteArrayList<Enemy> enemyList;
     private int enemiesPerWave, enemiesSpawned;
     private boolean waveCompleted;
 
-    public Wave(Enemy enemyType, float spawnTime, int enemiesPerWave) {
-        this.enemyType = enemyType;
+    public Wave(Enemy enemy, float spawnTime, int enemiesPerWave) {
+        this.enemy = enemy;
         this.spawnTime = spawnTime * 1000;  //convert into milliseconds
         this.enemiesPerWave = enemiesPerWave;
         this.enemiesSpawned = 0;
@@ -50,8 +51,13 @@ public class Wave {
     }
 
     private void spawn() {
-        enemyList.add(new Enemy(enemyType.getStartTile(), enemyType.getSpeed(), enemyType.getGrid(),
-                (Math.random() > 0.5), 50));
+        if (enemy.getType() == EnemyType.Random) {
+            enemyType = ((Math.random() > 0.5) ? EnemyType.Spider : EnemyType.Zombie);
+        } else {
+            enemyType = enemy.getType();
+        }
+        enemyList.add(new Enemy(enemyType, enemy.getStartTile(), enemy.getGrid()));
+//        enemyList.add(new Enemy(enemy.getType(), enemy.getStartTile(), enemy.getGrid()));
         enemiesSpawned++;
     }
 
@@ -71,12 +77,12 @@ public class Wave {
         this.spawnTime = spawnTime;
     }
 
-    public Enemy getEnemyType() {
-        return enemyType;
+    public Enemy getEnemy() {
+        return enemy;
     }
 
-    public void setEnemyType(Enemy enemyType) {
-        this.enemyType = enemyType;
+    public void setEnemy(Enemy enemyType) {
+        this.enemy = enemyType;
     }
 
     public CopyOnWriteArrayList<Enemy> getEnemyList() {

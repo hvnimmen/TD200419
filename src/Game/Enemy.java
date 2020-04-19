@@ -24,27 +24,29 @@ public class Enemy implements Entity{
 
     private int[] dir;
 
-//    public Enemy(Tile startTile, double speed, EnemyType type, TileGrid grid, boolean hugsLeft){
-    public Enemy(Tile startTile, float speed, TileGrid grid, boolean hugsLeft, float health){
+    public Enemy(EnemyType type, Tile startTile, TileGrid grid){
+
+        this.type = type;
+        this.image = type.image;
+        this.speed = type.speed;
+        this.health = type.health;
+        this.maxHealth = type.health;
+
+        this.startTile = startTile;
         this.x = startTile.getX();
         this.y = startTile.getY();
+
         this.displayX = (int)(x * TILE_SIZE);
         this.displayY = (int)(y * TILE_SIZE);
-        this.startTile = startTile;
-        this.speed = speed;
-        this.type = type;
+
         this.grid = grid;
+
         this.first = true;
         this.alive = true;
-        this.hugsLeft = hugsLeft;
-        if(!hugsLeft){
-            this.speed *= 1.5;
-            this.image = new Image("file:spider-face.png");
-        } else {
-            this.image = new Image("file:zombie-face.png");
-        }
-        this.health = health;
-        this.maxHealth = health;
+
+        //randomizer
+        this.hugsLeft = (Math.random() > 0.5);
+
         this.healthBackground = new Image("file:health-bg.png");
         this.healthForeground = new Image("file:health-fg.png");
         this.healthBorder = new Image("file:health-border.png");

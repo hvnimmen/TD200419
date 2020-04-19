@@ -14,9 +14,8 @@ import static Game.Game.TILE_SIZE;
 
 public abstract class Tower implements Entity{
 
-    private int range;
+    private int range, cost;
     private float x, y, displayX, displayY, cooldown, timeSinceLastShot, offset;
-    private TowerType towerType;
     public ArrayList<Projectile> projectiles;
     private CopyOnWriteArrayList<Enemy> enemies;
     private boolean locked;
@@ -35,6 +34,7 @@ public abstract class Tower implements Entity{
         this.displayY = y * TILE_SIZE;
 
         this.range = type.range + 1;
+        this.cost = type.cost;
 
         this.cooldown = type.cooldown * 1000;
         this.timeSinceLastShot = 0;
@@ -137,11 +137,19 @@ public abstract class Tower implements Entity{
     }
 
     public TowerType getTowerType() {
-        return towerType;
+        return type;
     }
 
     public void setTowerType(TowerType towerType) {
-        this.towerType = towerType;
+        this.type = towerType;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     public void update(GraphicsContext gc){

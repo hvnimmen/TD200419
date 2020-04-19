@@ -29,23 +29,28 @@ public class StateManager {
     };
 
     public static void update() {
-        switch (gameState) {
-            case MAIN_MENU:
-                if (mainMenu == null)
-                    mainMenu = new MainMenu();
-                mainMenu.update();
-                break;
-            case GAME:
-                if (game == null)
-                    game = new Game(map);
-                game.update();
-                break;
-            case EDITOR:
-                if (editor == null)
-                    editor = new Editor();
-                editor.update();
-                break;
-        }
+//        switch (gameState) {
+//            case MAIN_MENU:
+//                if (mainMenu == null)
+//                    mainMenu = new MainMenu();
+//                mainMenu.update();
+//                break;
+//            case GAME:
+//                if (game == null)
+//                    game = new Game(map);
+//                game.update();
+//                break;
+//            case EDITOR:
+//                if (editor == null)
+//                    editor = new Editor();
+//                editor.update();
+//                break;
+//        }
+
+        //isolated testing
+        if (game == null)
+            game = new Game(map);
+        game.update();
     }
 
     public static void setState(GameState newState) {
